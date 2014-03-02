@@ -114,7 +114,8 @@ var info = map.append("div")
 
 var scale = d3.scale.quantile()
     .domain([0,50])
-    .range(['c1','c2','c3','c4','c5','c6','c7','c8','c9','c10']);
+    //.range(['c1','c2','c3','c4','c5','c6','c7','c8','c9','c10']);
+    .range(['#178be7', '#668ad2', '#8889bd', '#a687a5', '#ba868f', '#ca857a', '#d98464', '#e7834e', '#f5812f', '#ff8000']);
 
 zoomed();
 
@@ -155,7 +156,8 @@ function zoomed() {
           svg.selectAll("path")
               .data(json.features) //.sort(function(a, b) { return a.properties.sort_key - b.properties.sort_key; }))
             .enter().append("path")
-              .attr("class", function(d) { return scale(d.properties.temp-272.15); })
+              //.attr("class", function(d) { return scale(d.properties.temp-272.15); })
+              .style('fill', function(d) { return scale(d.properties.temp-272.15); })
               .attr("d", tilePath);
         });
       });
