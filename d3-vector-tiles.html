@@ -112,8 +112,8 @@ var layer = map.append("div")
 var info = map.append("div")
     .attr("class", "info");
 
-var scale = d3.scale.ordinal()
-    .domain(d3.range([0,300]))
+var scale = d3.scale.quantile()
+    .domain([0,50])
     .range(['c1','c2','c3','c4','c5','c6','c7','c8','c9','c10']);
 
 zoomed();
@@ -144,6 +144,7 @@ function zoomed() {
       .each(function(d) {
         var svg = d3.select(this);
         this._xhr = d3.json("http://koop.dc.esri.com/climate/temperature/tiles/" + d[2] + "/" + d[0] + "/" + d[1] + ".json", function(error, json) {
+        //this._xhr = d3.json("http://localhost:1337/climate/temperature/tiles/" + d[2] + "/" + d[0] + "/" + d[1] + ".json", function(error, json) {
           var k = Math.pow(2, d[2]) * 256; // size of the world in pixels
 
           tilePath.projection()
@@ -153,7 +154,7 @@ function zoomed() {
           svg.selectAll("path")
               .data(json.features) //.sort(function(a, b) { return a.properties.sort_key - b.properties.sort_key; }))
             .enter().append("path")
-              .attr("class", function(d) { return scale(d.properties.temp); })
+              .attr("class", function(d) { return scale(d.properties.temp-272.15); })
               .attr("d", tilePath);
         });
       });
