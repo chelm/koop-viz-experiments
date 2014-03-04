@@ -11,7 +11,7 @@ body {
   overflow: hidden;
 }
 
-.world {
+canvas {
   position:absolute;
   top: 0px;
   z-index: -1;
@@ -80,7 +80,7 @@ body {
 
 path {
   fill: #444;
-  stroke:#888;
+  stroke:#EEE;
 }
 
 </style>
@@ -121,30 +121,32 @@ var map = d3.select("body").append("div")
 
 //svg map
 var projection = d3.geo.mercator()
-  .scale(zoom.scale() / 2 / Math.PI)
-  .translate(zoom.translate());
+    .translate([width / 2, height / 2]);
+
+var graticule = d3.geo.graticule();
+
+var canvas = d3.select("body").append("canvas")
+    .attr("width", width)
+    .attr("height", height);
+
+var context = canvas.node().getContext("2d");
+
+var path = d3.geo.path()
+    .projection(projection)
+    .context(context);
 
 
-var path = d3.geo.path().projection( projection );
-
-var svg = d3.select("body").append("svg")
-    .attr('class', 'world')
-    .style("width", width + "px")
-    .style("height", height + "px")
-    .call(zoom)
-    .on("mousemove", mousemoved);
-
+var land;
 d3.json("world-110m.json", function(error, world) {
-  console.log('world', world);
-
-  svg.append("g")
-  .attr("class", "states")
-  .selectAll("path")
-    .data(topojson.feature(world, world.objects.countries).features)
-  .enter().append("path")
-    .attr("d", path);
-
+  land = topojson.feature(world, world.objects.countries);
+    context.clearRect(0, 0, width, height);
+    
+    context.beginPath();
+    path(land);
+    context.fillStyle = "#333";
+    context.fill();
 });
+
 
 var layer = map.append("div")
     .attr("class", "layer");
@@ -196,11 +198,15 @@ function zoomed() {
         });
       });
 
+  //update canvas
+  context.clearRect(0, 0, width, height);
   projection
     .scale(zoom.scale() / 2 / Math.PI)
     .translate(zoom.translate());
 
-  svg.selectAll("path").attr("d", path);
+  context.beginPath();
+  path(land);
+  context.fill();
 }
 
 
