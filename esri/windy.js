@@ -318,10 +318,8 @@ var Windy = function( params ){
                         var wind = grid.interpolate(λ, φ);
                         if (wind) {
                             wind = distort(projection, λ, φ, x, y, velocityScale, wind, extent);
-                            //console.log(wind);
                             column[y+1] = column[y] = wind;
                             color = gradient(wind, Math.floor(0.4*255));
-                            //console.log(wind, color);
                         }
                     }
                 }
@@ -550,9 +548,7 @@ var Windy = function( params ){
       // interpolateField
       interpolateField( grid, buildBounds( bounds, width, height), mapBounds, function( bounds, field ){
         // animate the canvas with random points 
-        //windy.field = field;
-        console.log('done');
-        callback();
+        callback(bounds, field);
         //animate( bounds, field );
       });
 
