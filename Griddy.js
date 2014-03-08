@@ -13,10 +13,11 @@ var Griddy = function(data, bounds, width, height, extent, canvas){
   //this.build( this.interpolateField( this.render() ) ); 
 
   this.context = canvas.getContext("2d");
-//    this.context.fillStyle = "rgba(255, 0, 0, 1)";
-//    this.context.fill();
+    this.context.fillStyle = "rgba(255, 0, 0, 1)";
+    //this.context.fillRect(0,0,500,500);
+    //this.context.fill();
 
-  console.log(0, 0, width, height)
+  //console.log(0, 0, width, height)
   this.imageData = this.context.getImageData(0, 0, width, height);
 
   return this;
@@ -35,24 +36,29 @@ Griddy.prototype.bilinearInterpolateScalar = function(x, y, g00, g10, g01, g11){
 
 
 Griddy.prototype.interpolate = function(λ, φ) {
-  var λ0 = this.extent[0][0], φ0 = this.extent[1][1];
-  var Δλ = 2.5, Δφ = 2.5;
+  var λ0 = 0, //this.extent[0][0], 
+    φ0 = this.extent[1][1];
+  var Δλ = 1, Δφ = 1;
   var ni = Math.abs(this.extent[1][0] - this.extent[0][0])/Δλ,
-    nj = Math.abs(this.extent[1][1] - this.extent[0][1])/Δφ;
+    nj = 181;//Math.abs(this.extent[1][1] - this.extent[0][1])/Δφ;
 
   var i = this.floorMod(λ - λ0, 360) / Δλ;  // calculate longitude index in wrapped range [0, 360)
   var j = (φ0 - φ) / Δφ;                 // calculate latitude index in direction +90 to -90
 
   var fi = Math.floor(i), ci = fi + 1;
   var fj = Math.floor(j), cj = fj + 1;
+ 
+  //console.log(cj)
 
   var row;
   if ((row = this.grid[fj])) {
       var g00 = row[fi];
       var g10 = row[ci];
+      //console.log(this.isValue(g00), this.isValue(g10), this.grid[cj].length)
       if (this.isValue(g00) && this.isValue(g10) && (row = this.grid[cj])) {
           var g01 = row[fi];
           var g11 = row[ci];
+          //console.log('\t', row[fi], row[fj])
           if (this.isValue(g01) && this.isValue(g11)) {
               // All four points found, so interpolate the value.
               return this.bilinearInterpolateScalar(i - fi, j - fj, g00, g10, g01, g11);
@@ -100,10 +106,13 @@ Griddy.prototype.buildBounds = function( bounds, width, height ) {
 };
 
 Griddy.prototype.build = function(callback){
-  var λ0 = this.extent[0][0], φ0 = this.extent[1][1]; 
-  var Δλ = 2.5, Δφ = 2.5; 
-  var ni = (Math.abs(this.extent[1][0] - this.extent[0][0])/Δλ) + 1, 
-    nj = Math.abs(this.extent[1][1] - this.extent[0][1])/Δφ;
+  var λ0 = 0, //this.extent[0][0], 
+    φ0 = this.extent[1][1]; 
+  var Δλ = 1, Δφ = 1; 
+  var ni = 360,//(Math.abs(this.extent[1][0] - this.extent[0][0])/Δλ), 
+    nj = 181; //Math.abs(this.extent[1][1] - this.extent[0][1])/Δφ + 1;
+
+  console.log(λ0, φ0, ni, nj)
 
   // Scan mode 0 assumed. Longitude increases from λ0, and latitude decreases from φ0.
   // http://www.nco.ncep.noaa.gov/pmb/docs/grib2/grib2_table3-4.shtml
@@ -116,7 +125,7 @@ Griddy.prototype.build = function(callback){
       }
       if (isContinuous) {
           // For wrapped grids, duplicate first column as last column to simplify interpolation logic
-          //row.push(row[0]);
+          row.push(row[0]);
       }
       this.grid[j] = row;
   }
@@ -139,7 +148,8 @@ Griddy.prototype.invert = function(x, y){
   var worldMapRadius = this.bounds.width / this.rad2deg(mapLonDelta) * 360/(2 * Math.PI);
   var mapOffsetY = ( worldMapRadius / 2 * Math.log( (1 + Math.sin(this.miny) ) / (1 - Math.sin(this.miny))  ));
   var equatorY = this.bounds.height + mapOffsetY;
-  var a = (equatorY-y)/worldMapRadius;
+  var a = (equatorY-y)/worldMapRadius
+  //console.log(mapOffsetY,  (worldMapRadius / 2 * Math.log((1+Math.sin(this.miny))/(1 - Math.sin(this.miny)))) );
   var lat = 180/Math.PI * (2 * Math.atan(Math.exp(a)) - Math.PI/2);
   var lon = this.rad2deg(this.minx) + x / this.bounds.width * this.rad2deg(mapLonDelta);
   //console.log(x,y,lon,lat)
@@ -226,14 +236,16 @@ Griddy.prototype.interpolateField = function( callback ){
         var column = [];
         for (var y = 0; y <= bounds.height; y += 2) {
                 var coord = self.invert(x,y);
+                //console.log(x,y, coord)
                 var color = [255, 255, 255, 255];
                 if (coord) {
                     var λ = coord[0], φ = coord[1];
                     if (isFinite(λ)) {
                         var val = self.interpolate(λ, φ);
+                        //console.log(val)
                         if (val) {
                           //val = self.distort(λ, φ, x, y, bounds.height*(1/70000), val);
-                          //color = self.sinebowColor(self.proportion(val[1]-272.15, [0, 60]), Math.floor(0.4*255));
+                          //color = self.sinebowColor(self.proportion(val-272.15, [0, 60]), Math.floor(0.4*255));
                           color = gradient(val, Math.floor(0.4*255));
                           //console.log(val, color);
                         }
@@ -350,6 +362,6 @@ Griddy.prototype.sinebowColor = function(hue, a) {
 }
 
 
-if (typeof(module) !== undefined){
-  module.exports = Griddy;
-}
+//if (typeof(module) !== undefined){
+//  module.exports = Griddy;
+//}

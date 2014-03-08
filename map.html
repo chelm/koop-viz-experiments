@@ -114,7 +114,6 @@ var map = d3.select("body").append("div")
     .style("width", width + "px")
     .style("height", height + "px")
     .call(zoom)
-    .on("mousemove", mousemoved);
 
 //svg map
 var projection = d3.geo.mercator()
@@ -129,7 +128,6 @@ var svg = d3.select("body").append("svg")
     .style("width", width + "px")
     .style("height", height + "px")
     .call(zoom)
-    .on("mousemove", mousemoved);
 
 d3.json("world-110m.json", function(error, world) {
   console.log('world', world);
@@ -176,7 +174,8 @@ function zoomed() {
       .style("top", function(d) { return d[1] * 256 + "px"; })
       .each(function(d) {
         var svg = d3.select(this);
-        var host = "http://koop.dc.esri.com/climate/temperature/tiles/";
+        var host = "http://localhost:1337/climate/temperature/tiles/";
+        //var host = "http://koop.dc.esri.com/climate/temperature/tiles/";
         this._xhr = d3.json(host + d[2] + "/" + d[0] + "/" + d[1] + ".json", function(error, json) {
           var k = Math.pow(2, d[2]) * 256; // size of the world in pixels
 
