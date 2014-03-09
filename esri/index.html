@@ -81,7 +81,7 @@
             map.on("zoom-start", redraw);
 
             var layersRequest = esriRequest({
-              url: './temps.json',
+              url: './temps2.json',
               content: {},
               handleAs: "json"
             });
@@ -108,7 +108,7 @@
           rasterLayer._element.width = map.width;
           rasterLayer._element.height = map.height;
 
-          windy.stop();
+          //windy.stop();
 
           var extent = map.geographicExtent;
           setTimeout(function(){
@@ -118,6 +118,7 @@
               map.height, 
               [[extent.xmin, extent.ymin],[extent.xmax, extent.ymax]], 
               function(){
+                rasterLayer._element.getContext("2d").clearRect(0, 0, map.width, map.height);
                 rasterLayer._element.getContext("2d").putImageData(windy.imageData, 0, 0);
               });
 

@@ -319,7 +319,7 @@ var Windy = function( params ){
                         if (wind) {
                             wind = distort(projection, λ, φ, x, y, velocityScale, wind, extent);
                             column[y+1] = column[y] = wind;
-                            color = gradient(wind, Math.floor(0.4*255));
+                            color = gradient(wind, Math.floor(0.5*255));
                         }
                     }
                 }
@@ -336,7 +336,7 @@ var Windy = function( params ){
                 while (x < bounds.width) {
                     interpolateColumn(x);
                     x += 2;
-                    if ((Date.now() - start) > 1000) { //MAX_TASK_TIME) {
+                    if ((Date.now() - start) > 400) { //MAX_TASK_TIME) {
                         setTimeout(batchInterpolate, 25);
                         return;
                     }
@@ -538,22 +538,22 @@ var Windy = function( params ){
       height: height
     };
 
-    stop();
+    //stop();
 
     windy.imageData = windy.params.canvas.getContext("2d").getImageData(0, 0, width, height);
     windy.width = width;
 
     // build grid
-    buildGrid( params.data, function(grid){
+    //buildGrid( params.data, function(grid){
       // interpolateField
-      interpolateField( grid, buildBounds( bounds, width, height), mapBounds, function( bounds, field ){
+      interpolateField( windy.grid, buildBounds( bounds, width, height), mapBounds, function( bounds, field ){
         // animate the canvas with random points 
         callback(bounds, field);
         //animate( bounds, field );
       });
-
-    });
+    //});
   };
+
 
   var stop = function(){
     if (windy.field) windy.field.release();
@@ -565,6 +565,11 @@ var Windy = function( params ){
     start: start,
     stop: stop
   };
+  
+  // build the grid once 
+  buildGrid( params.data, function(grid){
+    windy.grid = grid;  
+  });
 
   return windy;
 }

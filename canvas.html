@@ -89,6 +89,7 @@ path {
 <script src="http://d3js.org/topojson.v1.min.js"></script>
 <script src="http://d3js.org/d3.geo.tile.v0.min.js"></script>
 <script src="Griddy.js"></script>
+<script src="windy.js"></script>
 <script src="lodash.underscore.min.js"></script>
 <script src="sphericalmercator.js"></script>
 <script>
@@ -200,10 +201,31 @@ function zoomed() {
           //console.log( bbox, JSON.stringify( data ));
           var griddy = new Griddy(data, [[0,0],[256, 256]], 256, 256, [[bbox[0], bbox[1]],[bbox[2], bbox[3]]], svg.node());
 
-          griddy.build( function(){
-            griddy.interpolateField(function(imageData){
-              svg.node().getContext("2d").putImageData(imageData, 0, 0);
-            });
+          //griddy.build( function(){
+          //  griddy.interpolateField(function(imageData){
+          //    svg.node().getContext("2d").putImageData(imageData, 0, 0);
+          //  });
+          //});
+  
+          // build a data object with a header and data
+          var data = [{
+            header: {
+              "nx":36,
+              "ny":8,
+              "lo1":bbox[0],
+              "la1":bbox[3],
+              "lo2":bbox[2],
+              "la2":bbox[1],
+              "dx":2.5,
+              "dy":2.5
+            },
+            data: data
+          }];
+          console.log(data)
+          var w = new Windy({ canvas: svg.node(), data: data });
+          w.start([[0,0],[256, 256]], 300, 256, [[bbox[0], bbox[1]],[bbox[2], bbox[3]]], function(){
+              console.log('interp done', w.imageData);
+              svg.node().getContext("2d").putImageData(w.imageData, 0, 0);
           });
 
           /*svg.selectAll("path")
