@@ -1,0 +1,120 @@
+
+<!DOCTYPE html >
+<html>
+<head>
+
+<style>
+  html, body {
+    margin:0;
+    padding:0;
+    height: 100%;
+  }
+  #map {
+    width: 100%;
+    height: 100%;
+    position:absolute;
+  }
+  #info {
+    position:absolute;
+    bottom: 10px;
+    left: 25px;
+  }
+</style>
+
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src='llmr/v0.0.11/llmr.js'></script>
+<script src='gl/outdoors-gl-style.js'></script>
+<script src='gl/custom-style.js'></script>
+
+</head>
+<body>
+  <div id="map"></div>
+  <div id="info"></div>
+  
+<script type='text/javascript'>
+(function() {
+  function setupMap() {
+    map = window.map = new llmr.Map({
+      container: 'map',
+      sources: {
+        'outdoors': {
+          type: 'vector',
+          url: 'https://{s}.tiles.mapbox.com/v3/mapbox.mapbox-terrain-v1,mapbox.mapbox-streets-v5/{z}/{x}/{y}.vector.pbf',
+          glyphs: 'https://mapbox.s3.amazonaws.com/gl-glyphs-256/{fontstack}/{range}.pbf',
+          tileSize: 512,
+          maxZoom: 22,
+          skipZooms: [1, 9, 11]
+        },
+        'states': {
+          type: 'vector',
+          url: 'http://localhost:1337/github/chelm/geodata/us-states/tiles/{z}/{x}/{y}.pbf',
+          maxZoom:5,
+          tileSize: 256
+        },
+        'countries': {
+          type: 'vector',
+          url: 'http://localhost:1337/github/chelm/geodata/world-countries/tiles/{z}/{x}/{y}.pbf',
+          maxZoom:5,
+          tileSize: 256
+        },
+        'counties': {
+          type: 'vector',
+          url: 'http://localhost:1337/agol/arcgis/5d226b0639814ff4a44f9beda09e1ef8/0/tiles/{z}/{x}/{y}.pbf',
+          maxZoom:10,
+          tileSize: 256
+        }
+      },
+      center: [37.772537, -99.420679],
+      minZoom: 4,
+      zoom: 2.01,
+      style: style,
+      hash: false
+    });
+
+    map.on('click', function(e){
+      map.sources.states.featuresAt(e.point, {}, function(err, features){
+        var info = '';
+        if (features.length){
+          info += features[0].name;
+        }
+        map.sources.counties.featuresAt(e.point, {}, function(err, features){
+          if (features.length){
+            info += ', ' + features[0].NAME;
+          }
+          $('#info').html('<h1>'+info+'</h1>');
+        }); 
+      });
+    });
+
+  }
+    
+    
+  function webgl_detect() {
+    if (!!window.WebGLRenderingContext) {
+      var canvas = document.createElement('canvas'),
+          names = ['webgl', 'experimental-webgl', 'moz-webgl', 'webkit-3d'],
+          context = false;
+
+      for(var i=0;i<4;i++) {
+        try {
+          context = canvas.getContext(names[i]);
+          if (context && typeof context.getParameter == "function") {
+                  return true; // WebGL is enabled
+              }
+            } catch(e) {}
+          }
+          return false; // WebGL is supported, but disabled
+      }
+      return false; // WebGL not supported
+  }
+
+  if (window.WebGLRenderingContext &&
+      window.navigator.userAgent.toLowerCase().indexOf('msie') === -1 && webgl_detect()) {
+      setupMap();
+  }
+
+})();
+</script>
+
+</body>
+</html>

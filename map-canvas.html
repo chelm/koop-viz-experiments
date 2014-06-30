@@ -48,6 +48,7 @@ canvas {
 .tile path.c4 {
   fill:#d1e5f0;
 }
+
 .tile path.c5 {
   fill:#f7f7f7;
 }
@@ -137,7 +138,7 @@ var path = d3.geo.path()
 
 
 var land;
-d3.json("world-110m.json", function(error, world) {
+d3.json("data/world-110m.json", function(error, world) {
   land = topojson.feature(world, world.objects.countries);
     context.clearRect(0, 0, width, height);
     
@@ -156,7 +157,29 @@ var info = map.append("div")
 
 var scale = d3.scale.quantile()
     .domain([-20,70])
-    .range(['c1','c2','c3','c4','c5','c6','c7','c8','c9','c10']);
+    //.range(['c1','c2','c3','c4','c5','c6','c7','c8','c9','c10']);
+//    .range(['#00ffff','#64f0ff','#87e1ff','#a0d0ff','#b5c0ff','#c6adff','#d49bff','#e185ff','#ec6dff','#ff1edb']);
+    //.range(['#2166ac', '#4393c3', '#92c5de', '#d1e5f0', '#f7f7f7', '#fddbc7', '#f7f7f7', '#fddbc7', '#f4a582', '#d6604d', '#b2182b', '#fa8072'].reverse());
+    .range(['#2166ac', '#4393c3', '#92c5de', '#fddbc7', '#f4a582', '#d6604d', '#b2182b', '#fa8072'].reverse());
+
+var current_index = 0;
+d3.select("body").on('mousemove', function(e){ 
+  var len = 10;
+  var idx = parseInt((d3.event.clientX / width) * len);
+  console.log(idx);
+  if (idx != current_index){
+    // get all dots and change the fill 
+    d3.selectAll('.dot')
+      .style('fill', function(d){return scale(d.properties.vals[idx]);});
+
+    //d3.selectAll('.dot').each(function(dot){
+      //d3.select(this).style('fill', function(d){ return scale(d.properties.temps[idx]) });
+      //d3.select(dot).style('fill', function(d){ return scale(dot.properties.vals[idx]) });
+      //console.log(dot);
+    //});
+    current_index = idx;
+  }
+});
 
 zoomed();
 
@@ -181,8 +204,8 @@ function zoomed() {
       .style("top", function(d) { return d[1] * 256 + "px"; })
       .each(function(d) {
         var svg = d3.select(this);
-        var host = "http://koop.dc.esri.com/climate/temperature/tiles/";
-        //var host = "http://localhost:1337/climate/temperature/tiles/";
+       // var host = "http://koop.dc.esri.com/climate/temperature/tiles/";
+        var host = "http://localhost:1337/climate/climgen_2011_2040/tiles/";
         this._xhr = d3.json(host + d[2] + "/" + d[0] + "/" + d[1] + ".json", function(error, json) {
           var k = Math.pow(2, d[2]) * 256; // size of the world in pixels
 
@@ -193,7 +216,9 @@ function zoomed() {
           svg.selectAll("path")
               .data(json.features) //.sort(function(a, b) { return a.properties.sort_key - b.properties.sort_key; }))
             .enter().append("path")
-              .attr("class", function(d) { return scale(d.properties.temp-272.15); })
+              //.attr("class", function(d) { return scale(d.properties.vals[0]); })
+              .attr("class", 'dot')
+              .style("fill", function(d) { return scale(d.properties.vals[0]); })
               .attr("d", tilePath);
         });
       });
@@ -232,4 +257,5 @@ function formatLocation(p, k) {
 }
 
 </script>
+
 

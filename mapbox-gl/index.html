@@ -1,0 +1,104 @@
+
+<!DOCTYPE html >
+<html>
+<head>
+
+<style>
+  html, body {
+    margin:0;
+    padding:0;
+    height: 100%;
+  }
+  #map {
+    width: 100%;
+    height: 100%;
+    position:absolute;
+  }
+  #info {
+    position:absolute;
+    bottom: 10px;
+    left: 25px;
+  }
+</style>
+
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src='llmr/v0.0.11/llmr.js'></script>
+<script src='gl/outdoors-gl-style.js'></script>
+<script src='gl/custom-style.js'></script>
+
+</head>
+<body>
+  <div id="map"></div>
+  <div id="info"></div>
+  
+<script type='text/javascript'>
+(function() {
+  function setupMap() {
+    map = window.map = new llmr.Map({
+      container: 'map',
+      sources: {
+        'outdoors': {
+          type: 'vector',
+          url: 'https://{s}.tiles.mapbox.com/v3/mapbox.mapbox-terrain-v1,mapbox.mapbox-streets-v5/{z}/{x}/{y}.vector.pbf',
+          glyphs: 'https://mapbox.s3.amazonaws.com/gl-glyphs-256/{fontstack}/{range}.pbf',
+          tileSize: 512,
+          maxZoom: 22,
+          skipZooms: [1, 9, 11]
+        },
+        'zipcodes': {
+          type: 'vector',
+          url: 'http://koop.dc.esri.com/agol/arcgis/b267f0c4e50b40d3b2ec5a74e0ca6b61/0/tiles/{z}/{x}/{y}.pbf',
+          maxZoom:8,
+          tileSize: 256
+        }
+      },
+      center: [37.772537, -99.420679],
+      minZoom: 5,
+      maxZoom: 10,
+      zoom: 7.01,
+      style: style,
+      hash: false
+    });
+
+    map.on('hover', function(e){
+      map.sources.zipcodes.featuresAt(e.point, {}, function(err, features){
+        var info = '';
+        if (features.length){
+          info += 'zipcode: '+ features[0].ZIP;
+        }
+        $('#info').html('<h1>'+info+'</h1>');
+      });
+    });
+
+  }
+    
+    
+  function webgl_detect() {
+    if (!!window.WebGLRenderingContext) {
+      var canvas = document.createElement('canvas'),
+          names = ['webgl', 'experimental-webgl', 'moz-webgl', 'webkit-3d'],
+          context = false;
+
+      for(var i=0;i<4;i++) {
+        try {
+          context = canvas.getContext(names[i]);
+          if (context && typeof context.getParameter == "function") {
+                  return true; // WebGL is enabled
+              }
+            } catch(e) {}
+          }
+          return false; // WebGL is supported, but disabled
+      }
+      return false; // WebGL not supported
+  }
+
+  if (window.WebGLRenderingContext &&
+      window.navigator.userAgent.toLowerCase().indexOf('msie') === -1 && webgl_detect()) {
+      setupMap();
+  }
+
+})();
+</script>
+
+</body>
+</html>

@@ -88,10 +88,10 @@ path {
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
 <script src="http://d3js.org/d3.geo.tile.v0.min.js"></script>
-<script src="Griddy.js"></script>
-<script src="windy.js"></script>
-<script src="lodash.underscore.min.js"></script>
-<script src="sphericalmercator.js"></script>
+<script src="js/Griddy.js"></script>
+<script src="js/windy.js"></script>
+<script src="js/lodash.underscore.min.js"></script>
+<script src="js/sphericalmercator.js"></script>
 <script>
 
 var merc = new SphericalMercator({
@@ -139,7 +139,7 @@ var svg = d3.select("body").append("svg")
     .call(zoom)
     .on("mousemove", mousemoved);
 
-d3.json("world-50.json", function(error, world) {
+d3.json("data/world-50.json", function(error, world) {
   svg.append("g")
   .attr("class", "states")
   .selectAll("path")
