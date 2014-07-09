@@ -123,7 +123,7 @@ var projection = d3.geo.mercator()
 
 var path = d3.geo.path().projection( projection );
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select(".map").append("svg")
     .attr('class', 'world')
     .style("width", width + "px")
     .style("height", height + "px")
