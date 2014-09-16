@@ -1,0 +1,96 @@
+
+<!DOCTYPE html >
+<html>
+<head>
+
+<style>
+  html, body {
+    margin:0;
+    padding:0;
+    height: 100%;
+  }
+  #map {
+    width: 100%;
+    height: 100%;
+    position:absolute;
+  }
+  #info {
+    position:absolute;
+    bottom: 10px;
+    left: 25px;
+  }
+</style>
+
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src='llmr/v0.0.11/llmr.js'></script>
+<script src='gl/outdoors-gl-style.js'></script>
+<script src='gl/custom-style.js'></script>
+
+</head>
+<body>
+  <div id="map"></div>
+  <div id="info"></div>
+  
+<script type='text/javascript'>
+(function() {
+  function setupMap() {
+    map = window.map = new llmr.Map({
+      container: 'map',
+      sources: {
+        'basemap': {
+          type: 'vector',
+          url: 'http://184.72.133.178/agol/arcgis/046465c95d424afa848e665d1cd0a1f4/tiles/{z}/{x}/{y}.pbf',
+          maxZoom:17,
+          tileSize: 256
+        }
+      },
+      center: [37.7833, -122.4167],
+      minZoom: 10,
+      maxZoom: 13,
+      zoom: 13.01,
+      style: style,
+      hash: false
+    });
+
+    map.on('click', function(e){
+        map.sources.basemap.featuresAt(e.point, {}, function(err, features){
+          var info = 'County: ';
+          if (features.length){
+            info += features[0].id;
+          }
+          $('#info').html('<h1>'+info+'</h1>');
+        }); 
+    });
+
+  }
+    
+    
+  function webgl_detect() {
+    if (!!window.WebGLRenderingContext) {
+      var canvas = document.createElement('canvas'),
+          names = ['webgl', 'experimental-webgl', 'moz-webgl', 'webkit-3d'],
+          context = false;
+
+      for(var i=0;i<4;i++) {
+        try {
+          context = canvas.getContext(names[i]);
+          if (context && typeof context.getParameter == "function") {
+                  return true; // WebGL is enabled
+              }
+            } catch(e) {}
+          }
+          return false; // WebGL is supported, but disabled
+      }
+      return false; // WebGL not supported
+  }
+
+  if (window.WebGLRenderingContext &&
+      window.navigator.userAgent.toLowerCase().indexOf('msie') === -1 && webgl_detect()) {
+      setupMap();
+  }
+
+})();
+</script>
+
+</body>
+</html>

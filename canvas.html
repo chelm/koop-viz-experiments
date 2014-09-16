@@ -182,8 +182,8 @@ function zoomed() {
       .style("top", function(d) { return d[1] * 256 + "px"; })
       .each(function(d) {
         var svg = d3.select(this);
-        var host = "http://koop.dc.esri.com/climate/temperature/tiles/";
-        //var host = "http://localhost:1337/climate/temperature/tiles/";
+        //var host = "http://koop.dc.esri.com/climate/temperature/tiles/";
+        var host = "http://localhost:1337/climate/temperature/tiles/";
         this._xhr = d3.json(host + d[2] + "/" + d[0] + "/" + d[1] + ".json", function(error, json) {
           var k = Math.pow(2, d[2]) * 256; // size of the world in pixels
 
@@ -193,7 +193,7 @@ function zoomed() {
 
           // console.log( svg.node() );
           var data  = json.features.map(function(f){ 
-            return f.properties.temp; 
+            return f.properties.temps[0]; 
           });
           
 
@@ -223,7 +223,7 @@ function zoomed() {
           }];
           console.log(data)
           var w = new Windy({ canvas: svg.node(), data: data });
-          w.start([[0,0],[256, 256]], 300, 256, [[bbox[0], bbox[1]],[bbox[2], bbox[3]]], function(){
+          w.start([[0,0],[256, 256]], 256, 256, [[bbox[0], bbox[1]],[bbox[2], bbox[3]]], function(){
               console.log('interp done', w.imageData);
               svg.node().getContext("2d").putImageData(w.imageData, 0, 0);
           });
