@@ -108,6 +108,25 @@ style.styles.default.Buildings = {
 };
 
 
+style.buckets.roads = {
+  "filter": {"source": "basemap", "layer": "Roads"},
+  "line": true
+};
+
+style.layers.push({
+  "id": "roads",
+  "bucket": "roads"
+});
+
+style.styles.default.roads = {
+  "line-color": "#999",
+  "line-width": "1",
+  "line-opacity": {
+    "fn": "stops",
+    "stops": [[11, 0], [17, 1]]
+  }
+};
+
 /*style.buckets.zipcodes = {
   "filter": {"source": "zipcodes", "layer": "tile"},
   "fill": true,
