@@ -9,7 +9,7 @@ style.layers.push({
 });
 
 style.styles.default.Counties = {
-  "fill-color": "#039",
+  "fill-color": "#F1EFCF",
   "fill-opacity": {
     "fn": "stops",
     "stops": [[10, .5], [18, .9]]
@@ -27,7 +27,80 @@ style.layers.push({
 });
 
 style.styles.default.land = {
-  "fill-color": "#0f5",
+  "fill-color": "#dbebb0",
+  "fill-opacity": {
+    "fn": "stops",
+    "stops": [[10, .5], [18, .9]]
+  }
+};
+
+style.buckets.water = {
+  "filter": {"source": "basemap", "layer": "Water Areas"},
+  "fill": true
+};
+
+style.layers.push({
+  "id": "water",
+  "bucket": "water"
+});
+
+style.styles.default.water = {
+  "fill-color": "#b5cfe6",
+  "fill-opacity": {
+    "fn": "stops",
+    "stops": [[10, .5], [18, .9]]
+  }
+};
+
+style.buckets.MajorBuildings = {
+  "filter": {"source": "basemap", "layer": "MajorBuildings"},
+  "fill": true
+};
+
+style.layers.push({
+  "id": "MajorBuildings",
+  "bucket": "MajorBuildings"
+});
+
+style.styles.default.MajorBuildings = {
+  "fill-color": "#fafab8",
+  "fill-opacity": {
+    "fn": "stops",
+    "stops": [[10, .5], [18, .9]]
+  }
+};
+
+
+style.buckets.MediumBuildings = {
+  "filter": {"source": "basemap", "layer": "MediumBuildings"},
+  "fill": true
+};
+
+style.layers.push({
+  "id": "MediumBuildings",
+  "bucket": "MediumBuildings"
+});
+
+style.styles.default.MediumBuildings = {
+  "fill-color": "#fafab8",
+  "fill-opacity": {
+    "fn": "stops",
+    "stops": [[10, .5], [18, .9]]
+  }
+};
+
+style.buckets.Buildings = {
+  "filter": {"source": "basemap", "layer": "Buildings"},
+  "fill": true
+};
+
+style.layers.push({
+  "id": "Buildings",
+  "bucket": "Buildings"
+});
+
+style.styles.default.Buildings = {
+  "fill-color": "#fafab8",
   "fill-opacity": {
     "fn": "stops",
     "stops": [[10, .5], [18, .9]]

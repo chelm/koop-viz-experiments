@@ -965,7 +965,7 @@ var style = {
     "bucket": "poi_aerodrome"
   }],
   "constants": {
-    "land": "rgb(244,239,225)",
+    "land": "#b5cfe6",
     "water": "#cdd",
     "water_dark": "#185869",
     "crop": "#eeeed4",
