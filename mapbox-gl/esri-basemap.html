@@ -54,10 +54,9 @@
 
     map.on('click', function(e){
         map.sources.basemap.featuresAt(e.point, {}, function(err, features){
-          var info = 'County: ';
+          var info = '';
           if (features.length){
-            console.log(features[0].properties);
-            info += features[0].id;
+            info += features[0].name_label;
           }
           $('#info').html('<h1>'+info+'</h1>');
         }); 
