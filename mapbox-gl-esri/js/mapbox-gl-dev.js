@@ -5297,6 +5297,7 @@ Style.prototype.recalculate = function(z) {
             layerType = this.layermap[name].type;
 
         if (!CalculatedStyle[layerType]) {
+            console.log(layer, bucket, name)
             console.warn('unknown layer type ' + layerType);
             continue;
         }

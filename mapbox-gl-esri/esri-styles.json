@@ -3,7 +3,7 @@
   "sprite": "https://www.mapbox.com/mapbox-gl-styles/sprites/bright",
   "glyphs": "https://mapbox.s3.amazonaws.com/gl-glyphs-256/{fontstack}/{range}.pbf",
   "constants": {
-    "@name": "{name_en}",
+    "@name": "{name_label}",
     "@sans": "Open Sans Regular, Arial Unicode MS Regular",
     "@sans_it": "Open Sans Italic, Arial Unicode MS Regular",
     "@sans_md": "Open Sans Semibold, Arial Unicode MS Bold",
@@ -505,6 +505,7 @@
     "id": "road_motorway_casing",
     "source": "esri",
     "source-layer": "Roads_72k",
+    "filter": {"carto": "2"},
     "min-zoom": 5,
     "render": {
       "line-cap": "round",
@@ -516,6 +517,28 @@
     },
     "type": "line"
    }, {
+    "id": "road_motorway_casing2",
+    "source": "esri",
+    "source-layer": "Roads_72k",
+    "filter": {"carto": ["3","4","5","6"]},
+    "min-zoom": 5,
+    "render": {
+      "line-cap": "round",
+      "line-join": "round"
+    },
+    "style": {
+      "line-color": "@motorway_casing",
+      "line-width": "@motorway_casing_width"
+    },
+    "type": "line"
+   }, {
+    "id": "road_sub_main",
+    "ref": "road_motorway_casing2",
+    "style": {
+      "line-color": "@main",
+      "line-width": "@main_width"
+    }
+  },{
     "id": "road_path",
     "source": "esri",
     "source-layer": "Roads",
@@ -1087,8 +1110,8 @@
   }, {
     "id": "place_label_city",
     "source": "esri",
-    "source-layer": "place_label",
-    "filter": { "type": "city" },
+    "source-layer": "Cities (labels)",
+    "filter": { "render_class": "22" },
     "render": {
       "text-font": "@sans_md",
       "text-field": "@name",
@@ -1096,12 +1119,33 @@
       "text-max-width": 8
     },
     "style": {
-      "text-color": "#333",
+      "text-color": "#777",
       "text-halo-color": "@text_halo",
       "text-halo-width": 1.2,
       "text-size": {
         "base": 1.2,
-        "stops": [[7, 14], [11, 24]]
+        "stops": [[7, 10], [11, 22]]
+      }
+    },
+    "type": "symbol"
+  }, {
+    "id": "place_label_city2",
+    "source": "esri",
+    "source-layer": "Cities (labels)",
+    "filter": { "render_class": "0" },
+    "render": {
+      "text-font": "@sans_md",
+      "text-field": "@name",
+      "text-max-size": 12,
+      "text-max-width": 8
+    },
+    "style": {
+      "text-color": "#777",
+      "text-halo-color": "@text_halo",
+      "text-halo-width": 1.2,
+      "text-size": {
+        "base": 1.2,
+        "stops": [[7, 8], [11, 12]]
       }
     },
     "type": "symbol"
