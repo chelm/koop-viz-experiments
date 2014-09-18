@@ -88,7 +88,7 @@
   "layers": [{
     "id": "background",
     "style": {
-      "background-color": "@water"
+      "background-color": "#a0c8f0"
     },
     "type": "background"
   }, {

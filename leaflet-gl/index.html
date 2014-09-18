@@ -1,0 +1,35 @@
+<html>
+<head>
+    <title>WebGL</title>
+    <meta charset="utf-8">
+    <style>#map { width: 800px; height: 600px; }</style>
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+
+    <!-- Mapbox GL -->
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.2.1/mapbox-gl.css' rel='stylesheet' />
+    <script src='js/mapbox-gl-dev.js'></script>
+</head>
+
+<body>
+<div id="map"></div>
+
+<script src="js/leaflet-mapbox-gl.js"></script>
+<script>
+
+var map = L.map('map').setView([37.7833, -122.4167], 15);
+
+L.marker([37.7833, -122.4167])
+    .bindPopup("This is Esri Vector Tiles inside <b>Leaflet</b> shell!<br>")
+    .addTo(map)
+    .openPopup();
+
+var gl = L.mapboxGL({
+    style: 'styles/esri-styles.json'
+}).addTo(map);
+
+</script>
+</body>
+</html>
