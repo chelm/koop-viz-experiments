@@ -223,6 +223,14 @@
     },
     "type": "line"
   }, {
+  "id": "ocean",
+    "source": "esri",
+    "source-layer": "Ocean Areas",
+    "style": {
+      "fill-color": "@water"
+    },
+    "type": "fill"
+  }, {
     "id": "water",
     "source": "esri",
     "source-layer": "Water Areas",
