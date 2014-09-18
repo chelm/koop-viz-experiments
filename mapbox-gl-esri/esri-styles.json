@@ -18,7 +18,7 @@
     "@school": "#f0e8f8",
     "@wood": "#6a4",
     "@building": "#f2eae2",
-    "@building_shadow": "#dfdbd7",
+    "@building_shadow": "#d0dbd0",
     "@building_color_transition": {
       "base": 1,
       "stops": [[15.5, "#f2eae2"], [16, "#dfdbd7"]]
@@ -108,7 +108,25 @@
     },
     "type": "fill"
   }, {
-  "id": "medbuilding",
+    "id": "parks_hospital",
+    "source": "esri",
+    "source-layer": "Land\\Facility Areas",
+    "filter": {"render_class": "2000408"},
+    "style": {
+      "fill-color": "@hospital"
+    },
+    "type": "fill"
+  }, {
+    "id": "parks_school",
+    "source": "esri",
+    "source-layer": "Land\\Facility Areas",
+    "filter": {"render_class": "2000403"},
+    "style": {
+      "fill-color": "@school"
+    },
+    "type": "fill"
+  }, {
+    "id": "medbuilding",
     "source": "esri",
     "source-layer": "MediumBuildings",
     "style": {
@@ -476,8 +494,7 @@
   }, {
     "id": "road_street_casing",
     "source": "esri",
-    "source-layer": "road",
-    "filter": { "class": ["street", "street_limited"], "$type": "LineString" },
+    "source-layer": "Roads",
     "render": {
       "line-cap": "round",
       "line-join": "round"
@@ -489,6 +506,19 @@
     },
     "type": "line"
   }, {
+    "id": "road_main_casing2",
+    "source": "esri",
+    "source-layer": "Roads",
+    "render": {
+      "line-cap": "round",
+      "line-join": "round"
+    },
+    "style": {
+      "line-color": "@motorway_casing",
+      "line-width": "@main_casing_width"
+    },
+    "type": "line"
+   }, {
     "id": "road_main_casing",
     "source": "esri",
     "source-layer": "Roads_36k",
