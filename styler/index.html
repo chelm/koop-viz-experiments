@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title></title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='js/mapbox-gl-dev.js'></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.2.2/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+        #panel {
+          display: block;
+          position: absolute;
+          top:20px;
+          left:10px;
+          width: 250px;
+          height: 500px;
+          padding: 10px;
+          border: none;
+          border-radius: 3px;
+          font-size: 14px;
+          color: #555;
+          background: #fff;
+          overflow:hidden;
+          overflow-y:auto;
+          border:1px solid #aaa;
+        }
+        .layer{
+          margin: 5px 0;
+          border-bottom: 1px solid #dedede;
+          padding: 10px;
+          position:relative;
+        }
+        .color {
+          width:25px;
+          height: 20px;
+          position:absolute;
+          top: 10px;
+          right: 10px;
+          border: 1px solid #dedede;
+        }
+        #picker {
+          display:block;
+          width:150px;
+          height: 150px;
+          left:290px;
+          position:absolute;
+          top:100px;
+          display:none;
+        }
+
+    </style>
+</head>
+<body>
+
+<div id='map'></div>
+<div id='panel'></div>
+<div id='picker'></div>
+<script>
+
+var pickTimer;
+
+var map = new mapboxgl.Map({
+  container: 'map', // container id
+  style: 'esri-styles.json', //stylesheet location
+  center: [37.7833, -122.4167], // starting position
+  zoom: 8 // starting zoom
+});
+
+
+map.on('load', function(){
+  style = map.style;
+  loadStyle();
+})
+
+function loadStyle(){
+  var colors = [];
+
+  style.stylesheet.layers.forEach(function(layer,i){
+    if ( (layer.type == 'fill' || layer.type == 'line')){
+      var div = d3.select('#panel').append('div')
+        .attr('class', 'layer')
+        .attr('id', layer.id)
+        .text(layer['source-layer'])
+      if (layer.style['fill-color'] || layer.style['line-color']){
+        var cBox = div.append('div')
+          .attr('id', i )
+          .attr('class', 'color layer'+i)
+          .attr('data-type', layer.type )
+          .style('background-color', function(){
+            var fillColor = style.stylesheet.constants[ layer.style['fill-color'] ], 
+              lineColor   = style.stylesheet.constants[ layer.style['line-color'] ];
+
+            if ( lineColor ){
+              
+              colors.push( lineColor );
+              return lineColor;
+
+            } else {
+              colors.push( fillColor );
+              return fillColor;
+            }
+          })
+          .on('mouseover', function(){
+            selected = this.id;
+            d3.select('#picker').style('display','block');
+//            d3.select('#center').attr('fill',this['data-color']);
+
+            if (pickTimer) {
+              clearTimeout(pickTimer);
+            }
+
+            d3.select('#picker').style( 'top', (d3.event.clientY-75)+'px' );
+          })
+          .on('mouseout', function(){
+            pickTimer = setTimeout(function(){
+              d3.select('#picker').style( 'display', 'none' );
+            },3000);
+          });
+      }
+    };
+  });
+  var picker = new ColorPicker("#aaaad5");
+  picker.picked = function (color) {
+    var box = d3.select('.layer'+selected);
+    var type = box.attr('data-type');
+    box.style('background-color', color);
+    
+    style.stylesheet.layers[selected].style[(type == 'fill')?'fill-color':'line-color'] = color;
+    style.cascade();
+  };
+}
+
+var ColorPicker = function (defaultColor, colorScale) {
+    var self = this;
+    var rainbow = 
+      ['#aaaaaa', '#b9aab3', '#c7abbc', '#d5abc5', '#e3aace', '#efadd5', '#f3bbd7', '#f7c9d9', '#fad7db', '#fde6dc', '#f1e8dc', '#ccdad8', '#a6ccd5', '#7abed1', '#3eb0ce', '#45b2cc', '#73becb', '#97cbca', '#b6d8c9', '#d2e5c8', '#bddcaa', '#9bcd86', '#77be61', '#4eae3b', '#8b0000', '#9b2403', '#a93b07', '#b74e0f', '#c5611a', '#d17226', '#dc8334', '#e69343', '#efa353', '#f6b265', '#fcc178', '#ffd08c', '#ffdea2', '#ffebba', '#fff9d3', '#f0f6d1', '#d4e5b7', '#bbd5a1', '#a4c58e', '#90b57f', '#7ea774', '#6e996d', '#618c68', '#568067', '#4d7468', '#45696c', '#3d5f73', '#33567d', '#254d89', '#004499']
+
+
+    colorScale = colorScale || rainbow;
+    var color = function (i) {
+        return colorScale[i];
+    };
+    defaultColor = defaultColor || color(0);
+
+    self.pickedColor = defaultColor;
+    self.picked = function (color) {};
+    var clicked = function () {
+        self.picked(self.pickedColor);
+    };
+
+    var size = 150, centerR = 15, outerR = 65;
+
+    var pie = d3.layout.pie().sort(null);
+    var arc = d3.svg.arc().innerRadius(centerR).outerRadius(outerR);
+
+    var svg = d3.select("#picker")
+        .append("svg")
+        .attr("width", size)
+        .attr("height", size)
+        .append("g")
+        .attr("transform", "translate(75,75)")
+        .on("mouseover", function () {
+          if ( pickTimer ) {
+            window.clearTimeout( pickTimer );
+          }
+        })
+        .on("mouseout", function () {
+          pickTimer = setTimeout( function(){
+            d3.select('#picker').style( 'display', 'none' );    
+          },2000);
+        })
+
+    var plate = svg.append("circle")
+        .attr("fill", defaultColor)
+        .attr("stroke", "#fff")
+        .attr("stroke-width", 2)
+        .attr("r", centerR)
+        .attr("cx", 0)
+        .attr("cy", 0)
+        .attr("id", 'center')
+        .on("click", clicked)
+
+    svg.datum(new Array(40+1).join('1').split('').map(parseFloat))
+        .selectAll("path")
+        .data(pie)
+        .enter()
+        .append("path")
+        .attr("fill", function (d, i) {
+        return color(i);
+    })
+        .attr("stroke", "#fff")
+        .attr("stroke-width", 1)
+        .attr("d", arc)
+        .on("mouseover", function () {
+          var fill = d3.select(this).attr("fill");
+          self.pickedColor = fill;
+          plate.attr("fill", fill);
+    })
+    .on("click", clicked);
+};
+
+
+
+</script>
+</script>
+
+</body>
+</html>
