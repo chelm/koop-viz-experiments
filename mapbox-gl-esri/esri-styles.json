@@ -10,9 +10,11 @@
     "@sans_bd": "Open Sans Bold, Arial Unicode MS Bold",
     "@land": "#f8f4f0",
     "@water": "#a0c8f0",
+    "@water_dark": "#585957",
     "@admin": "#9e9cab",
     "@admin-opacity": 0.5,
     "@park": "#d8e8c8",
+    "@park_dark": "#9ECA3B",
     "@cemetery": "#e0e4dd",
     "@hospital": "#fde",
     "@school": "#f0e8f8",
@@ -82,13 +84,16 @@
       "type": "vector",
       "url": "js/esri.json",
       "maxZoom": 17,
-      "minZoom": 11
+      "minZoom": 5
     }
   },
   "layers": [{
     "id": "background",
     "style": {
       "background-color": "@water"
+    },
+    "style.dark": {
+      "background-color": "@water_dark"
     },
     "type": "background"
   }, {
@@ -99,12 +104,43 @@
       "fill-color": "@land"
     },
     "type": "fill"
+  },{
+    "id": "states",
+    "source": "esri",
+    "source-layer": "States/Provinces",
+    "style": {
+      "fill-color": "@land"
+    },
+    "type": "fill"
+  },{
+    "id": "urban-areas",
+    "source": "esri",
+    "source-layer": "Urban Areas",
+    "style": {
+      "fill-color": "@admin",
+      "fill-opacity": 0.1
+    },
+    "type": "fill"
+  }, {
+    "id": "land-use",
+    "source": "esri",
+    "source-layer": "Land Use Areas",
+    "style": {
+      "fill-color": "@park"
+    },
+    "style.dark": {
+      "fill-color": "@park_dark"
+    },
+    "type": "fill"
   }, {
     "id": "parks",
     "source": "esri",
     "source-layer": "Land\\Facility Areas",
     "style": {
       "fill-color": "@park"
+    },
+    "style.dark": {
+      "fill-color": "@park_dark"
     },
     "type": "fill"
   }, {
@@ -228,6 +264,9 @@
     "source-layer": "Ocean Areas",
     "style": {
       "fill-color": "@water"
+    },
+    "style.dark": {
+      "fill-color": "@water_dark"
     },
     "type": "fill"
   }, {
@@ -540,6 +579,76 @@
     },
     "type": "line"
    }, {
+    "id": "road_majorhg_casing",
+    "source": "esri",
+    "source-layer": "MajorRoads_hg",
+    "min-zoom": 5,
+    "render": {
+      "line-cap": "round",
+      "line-join": "round"
+    },
+    "style": {
+      "line-color": "@motorway_casing",
+      "line-width": "@main_width"
+    },
+    "type": "line"
+   }, {
+    "id": "road_major288_casing",
+    "source": "esri",
+    "source-layer": "MajorRoads_288k",
+    "min-zoom": 5,
+    "render": {
+      "line-cap": "round",
+      "line-join": "round"
+    },
+    "style": {
+      "line-color": "@motorway_casing",
+      "line-width": "@main_width"
+    },
+    "type": "line"
+   }, { 
+    "id": "road_major576_casing",
+    "source": "esri",
+    "source-layer": "MajorRoads_576k",
+    "min-zoom": 5,
+    "render": {
+      "line-cap": "round",
+      "line-join": "round"
+    },
+    "style": {
+      "line-color": "@motorway_casing",
+      "line-width": "@main_width"
+    },
+    "type": "line"
+   }, {
+    "id": "highways",
+    "source": "esri",
+    "source-layer": "Highways",
+    "min-zoom": 5,
+    "render": {
+      "line-cap": "round",
+      "line-join": "round"
+    },
+    "style": {
+      "line-color": "@motorway_casing",
+      "line-width": "@main_width"
+    },
+    "type": "line"
+   }, {
+    "id": "road_144k",
+    "source": "esri",
+    "source-layer": "Roads_144k",
+    "min-zoom": 5,
+    "render": {
+      "line-cap": "round",
+      "line-join": "round"
+    },
+    "style": {
+      "line-color": "@motorway_casing",
+      "line-width": "@motorway_casing_width"
+    },
+    "type": "line"
+   }, {
     "id": "road_motorway_casing",
     "source": "esri",
     "source-layer": "Roads_72k",
@@ -790,19 +899,15 @@
     }, {
       "id": "admin_level_2",
       "source": "esri",
-      "source-layer": "admin",
-      "filter": {
-        "admin_level": 2,
-        "disputed": 0,
-        "maritime": 0
-      },
+      "source-layer": "Administrative 2 Lines",
       "render": {
         "line-join": "round",
         "line-cap": "round"
       },
       "style": {
         "line-color": "@admin",
-        "line-width": "@admin_level_2_width"
+        "line-dasharray": [1, 2],
+        "line-width": "3"
       },
       "type": "line"
     }, {
@@ -1142,6 +1247,68 @@
       "text-halo-blur": 0.75,
       "text-size": {
         "stops": [[3, 11], [4, 12]]
+      }
+    },
+    "type": "symbol"
+  }, {
+    "id": "island-labels",
+    "source": "esri",
+    "source-layer": "Islands {labels}",
+    "render": {
+      "text-font": "@sans_md",
+      "text-field": "@name",
+      "text-max-size": 16,
+      "text-max-width": 8
+    },
+    "style": {
+      "text-color": "#777",
+      "text-halo-color": "@text_halo",
+      "text-halo-width": 1.2,
+      "text-size": {
+        "base": 1.2,
+        "stops": [[7, 8], [11, 16]]
+      }
+    },
+    "type": "symbol"
+  },{
+    "id": "med-cities-small",
+    "source": "esri",
+    "source-layer": "Medium Cities",
+    "filter": { "render_class": "38" },
+    "render": {
+      "text-font": "@sans_md",
+      "text-field": "@name",
+      "text-max-size": 16,
+      "text-max-width": 8
+    },
+    "style": {
+      "text-color": "#777",
+      "text-halo-color": "@text_halo",
+      "text-halo-width": 1.2,
+      "text-size": {
+        "base": 1.2,
+        "stops": [[7, 8], [11, 16]]
+      }
+    },
+    "type": "symbol"
+  }, {
+    "id": "med-cities-big",
+    "source": "esri",
+    "source-layer": "Medium Cities",
+    "filter": { "render_class": "22" },
+    "render": {
+      "text-font": "@sans_md",
+      "text-field": "@name",
+      "text-max-size": 24,
+      "text-max-width": 8
+    },
+    "style": {
+      "text-color": "#777",
+      "text-halo-color": "@text_halo",
+      "text-halo-width": 1.2,
+      "text-size": {
+        "base": 1.2,
+        "stops": [[7, 14], [11, 24]]
       }
     },
     "type": "symbol"

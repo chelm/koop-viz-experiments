@@ -15,6 +15,8 @@
     "@admin-opacity": 0.5,
     "@park": "#d8e8c8",
     "@park_dark": "#9ECA3B",
+    "@park_flash1": "#5A945A",
+    "@park_flash2": "#9ECA3B",
     "@cemetery": "#e0e4dd",
     "@hospital": "#fde",
     "@school": "#f0e8f8",
@@ -131,6 +133,12 @@
     "style.dark": {
       "fill-color": "@park_dark"
     },
+    "style.parkflash1": {
+      "fill-color": "@park_flash1"
+    },
+    "style.parkflash2": {
+      "fill-color": "@park_flash2"
+    },
     "type": "fill"
   }, {
     "id": "parks",
@@ -141,6 +149,12 @@
     },
     "style.dark": {
       "fill-color": "@park_dark"
+    },
+     "style.parkflash1": {
+      "fill-color": "@park_flash1"
+    },
+    "style.parkflash2": {
+      "fill-color": "@park_flash2"
     },
     "type": "fill"
   }, {

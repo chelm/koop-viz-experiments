@@ -9,18 +9,65 @@
     <style>
         body { margin:0; padding:0; }
         #map { position:absolute; top:0; bottom:0; width:100%; }
+        button {
+          display: block;
+          position: absolute;
+          top:20px;
+          left:10px;
+          width: 100px;
+          height: 40px;
+          padding: 10px;
+          border: none;
+          border-radius: 3px;
+          font-size: 12px;
+          text-align: center;
+          color: #fff;
+          background: #5BA525;
+        }
+
+        #go {
+          top:20px;
+          left:10px;
+        }
+
+        #style {
+          top:20px;
+          left:120px;
+        }
+        
     </style>
 </head>
 <body>
 
 <div id='map'></div>
+<button onclick='go();' id='go'>Zoom</button>
+<button onclick='toggle();' id='style'>Toggle</button>
 <script>
 var map = new mapboxgl.Map({
   container: 'map', // container id
   style: 'esri-styles.json', //stylesheet location
   center: [37.7833, -122.4167], // starting position
-  zoom: 13 // starting zoom
+  zoom: 8 // starting zoom
 });
+
+var zoomed = false;
+function go() { 
+    if (zoomed){
+      zoomed = false;
+      map.flyTo([37.7833, -122.4167], 10, 0);
+    } else {
+      zoomed = true;
+      map.flyTo([37.7885565,-122.4082595], 16, 30);
+    }
+}
+function toggle(){
+    if (map.style.classes.dark) {
+      map.style.removeClass('dark');
+    } else {
+      map.style.addClass('dark');
+    }
+}
+</script>
 </script>
 
 </body>

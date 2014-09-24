@@ -39,6 +39,18 @@
           left:10px;
           background: #2c3e50;
         }
+        #step4 {
+          top:170px;
+          left:10px;
+          background: #9b59b6;
+        }
+        #step5 {
+          top:220px;
+          left:10px;
+          background: #bdc3c7;
+        }
+
+        
         
         
     </style>
@@ -46,9 +58,11 @@
 <body>
 
 <div id='map'></div>
-<button onclick='step1();' id='step1'>Step 1: San Francisco</button>
-<button onclick='step2();' id='step2'>Step 2: Oakland </button>
-<button onclick='step3();' id='step3'>Step 3: Berkeley</button>
+<button onclick='step1();' id='step1'>Step 1</button>
+<button onclick='step2();' id='step2'>Step 2</button>
+<button onclick='step3();' id='step3'>Step 3</button>
+<button onclick='step4();' id='step4'>Step 4</button>
+<button onclick='step5();' id='step5'>Step 5</button>
 <script>
 var map = new mapboxgl.Map({
   container: 'map', // container id
@@ -62,25 +76,44 @@ function clear(){
   map.style.removeClass('step1');
   map.style.removeClass('step2');
   map.style.removeClass('step3');
+  map.style.removeClass('parkflash2');
+  if (timer) clearInterval(timer);
 }
 
-var zoomed = false;
+var zoomed = false, timer;
 function step1() { 
   clear();
   map.flyTo([37.7833, -122.4167], 15, 0, function(){
-    map.style.addClass('dark');
+    map.style.removeClass('dark');
 
   });
 }
 function step2() { 
   clear();
-  map.flyTo([37.80463, -122.271481], 14, 0);
+  map.flyTo([37.7833, -122.4167], 14, 10);
   map.style.removeClass('dark');
 }
 function step3() { 
   clear();
-  map.flyTo([37.870958, -122.250795], 16, 0);
-  map.style.addClass('dark');
+  map.flyTo([37.7833, -122.4167], 16, -20);
+  map.style.removeClass('dark');
+}
+function step4() { 
+  clear();
+  map.flyTo([37.7833, -122.4167], 15, 30);
+  //map.style.addClass('dark');
+  timer = setInterval(function(){
+    console.log('go');
+    map.style.addClass('parkflash2');
+    setTimeout(function(){
+      map.style.removeClass('parkflash2');  
+    },700);
+  },1500);
+}
+function step5() { 
+  clear();
+  map.flyTo([37.7833, -122.4167], 14, -70);
+  map.style.removeClass('dark');
 }
 </script>
 </script>
