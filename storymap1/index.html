@@ -83,9 +83,8 @@ function clear(){
 var zoomed = false, timer;
 function step1() { 
   clear();
-  map.flyTo([37.7833, -122.4167], 15, 0, function(){
-    map.style.addClass('dark');
-
+  map.style.addClass('dark');
+  map.flyTo([37.7833, -122.4167], 13, 0, function(){
   });
 }
 function step2() { 
