@@ -32,12 +32,14 @@
     "@motorway": "#FFEE8F",
     "@motorway_casing": "#FF9A42",
     "@motorway_tunnel": "#FFF5BD",
-    "@main": "#fea",
+    "@main": "#FFF8EB",
+    "@main_casing": "#FF9A42",
     "@main_tunnel": "#fff4c6",
     "@street": "#fff",
     "@street_limited": "#f3f3f3",
     "@street_casing": "#B2B2B2",
     "@path": "#cba",
+    "@ferry": "rgb(69,161,217)",
     "@rail": "#bbb",
     "@text": "#334",
     "@text_halo": "rgba(255,255,255,0.8)",
@@ -63,12 +65,13 @@
     "@street_casing_opacity": {"stops": [[12, 0], [12.5, 1]]},
     "@service_casing_width": {"base": 1.2, "stops": [[15, 1], [16, 4], [20, 11]]},
     "@service_width": {"base": 1.2, "stops": [[15.5, 0], [16, 2], [20, 7.5]]},
+    "@ferry_width": {"base": 2, "stops": [[13, 2], [20, 4]]},
     "@path_width": {"base": 1.2, "stops": [[15, 1.2], [20, 4]]},
     "@path_line_dasharray": [{
       "base": 1.2, "stops": [[15, 2], [20, 4]]
       },{
       "base": 1.2, "stops": [[15, 1], [20, 2]]
-        }],
+    }],
     "@rail_width": {"base": 1.4, "stops": [[14, 0.4], [15, 0.75], [20, 2]]},
     "@rail_hatch_width": {"base": 1.4, "stops": [[14.5, 0], [15, 3], [20, 8]]},
     "@rail_hatch_line_dasharray": [2, 30],
@@ -293,7 +296,7 @@
   }, {
     "id": "road_street_casing",
     "source": "esri",
-    "source-layer": "Roads",
+    "source-layer": "Roadxxs",
     "render": {
       "line-cap": "round",
       "line-join": "round"
@@ -308,6 +311,7 @@
     "id": "road_main_casing2",
     "source": "esri",
     "source-layer": "Roads",
+    "filter": {"carto": ["3","4","5"]},
     "render": {
       "line-cap": "round",
       "line-join": "round"
@@ -318,9 +322,10 @@
     },
     "type": "line"
    }, {
-    "id": "road_main_casing",
+    "id": "road_36k_main_casing",
     "source": "esri",
     "source-layer": "Roads_36k",
+    "filter": {"carto": ["1","2"]},
     "render": {
       "line-cap": "round",
       "line-join": "round"
@@ -328,6 +333,36 @@
     "style": {
       "line-color": "@motorway_casing",
       "line-width": "@main_casing_width"
+    },
+    "type": "line"
+   }, {
+    "id": "road_36k_main",
+    "ref": "road_36k_main_casing",
+    "style": {
+      "line-color": "@motorway",
+      "line-width": "@motorway_width"
+    },
+    "type": "line"
+   }, {
+    "id": "road_36k_secondary_casing",
+    "source": "esri",
+    "source-layer": "Roads_36k",
+    "filter": {"carto": ["3","4","5","6"]},
+    "render": {
+      "line-cap": "round",
+      "line-join": "round"
+    },
+    "style": {
+      "line-color": "@motorway_casing",
+      "line-width": "@motorway_casing_width"
+    },
+    "type": "line"
+   }, {
+    "id": "road_36k_secondary",
+    "ref": "road_36k_secondary_casing",
+    "style": {
+      "line-color": "@main",
+      "line-width": "@main_width"
     },
     "type": "line"
    }, {
@@ -341,27 +376,69 @@
     },
     "style": {
       "line-color": "@motorway_casing",
+      "line-width": "@motorway_casing_width"
+    },
+    "type": "line"
+   }, {
+    "id": "major_roads_hg",
+    "ref": "road_majorhg_casing",
+    "style": {
+      "line-color": "@motorway",
+      "line-width": "@motorway_width"
+    },
+    "type": "line"
+   }, {
+    "id": "road_major288_casing_main",
+    "source": "esri",
+    "source-layer": "MajorRoads_288k",
+    "filter": {"render_class": ["1","2"]},
+    "min-zoom": 5,
+    "render": {
+      "line-cap": "round",
+      "line-join": "round"
+    },
+    "style": {
+      "line-color": "@motorway_casing",
+      "line-width": "@motorway_casing_width"
+    },
+    "type": "line"
+   }, {
+    "id": "road_motorway_288k",
+    "ref": "road_major288_casing_main",
+    "style": {
+      "line-color": "@motorway",
+      "line-width": "@motorway_width"
+    },
+    "type": "line"
+   }, { 
+    }, {
+    "id": "road_major288_casing_secondary",
+    "source": "esri",
+    "source-layer": "MajorRoads_288k",
+    "filter": {"render_class": ["3","4","5","6"]},
+    "min-zoom": 5,
+    "render": {
+      "line-cap": "round",
+      "line-join": "round"
+    },
+    "style": {
+      "line-color": "@motorway_casing",
+      "line-width": "@motorway_casing_width"
+    },
+    "type": "line"
+   }, {
+    "id": "road_motorway_288k_secondart",
+    "ref": "road_major288_casing_secondary",
+    "style": {
+      "line-color": "@main",
       "line-width": "@main_width"
     },
     "type": "line"
    }, {
-    "id": "road_major288_casing",
-    "source": "esri",
-    "source-layer": "MajorRoads_288k",
-    "min-zoom": 5,
-    "render": {
-      "line-cap": "round",
-      "line-join": "round"
-    },
-    "style": {
-      "line-color": "@motorway_casing",
-      "line-width": "@main_width"
-    },
-    "type": "line"
-   }, { 
     "id": "road_major576_casing",
     "source": "esri",
     "source-layer": "MajorRoads_576k",
+    "filter": {"render_class": ["1","2","6"]},
     "min-zoom": 5,
     "render": {
       "line-cap": "round",
@@ -369,7 +446,15 @@
     },
     "style": {
       "line-color": "@motorway_casing",
-      "line-width": "@main_width"
+      "line-width": "@motorway_casing_width"
+    },
+    "type": "line"
+   }, {
+    "id": "road_motorway_576k",
+    "ref": "road_major576_casing",
+    "style": {
+      "line-color": "@motorway",
+      "line-width": "@motorway_width"
     },
     "type": "line"
    }, {
@@ -383,13 +468,44 @@
     },
     "style": {
       "line-color": "@motorway_casing",
-      "line-width": "@main_width"
+      "line-width": "@motorway_casing_width"
     },
     "type": "line"
    }, {
-    "id": "road_144k",
+    "id": "road_highways",
+    "ref": "highways",
+    "style": {
+      "line-color": "@motorway",
+      "line-width": "@motorway_width"
+    },
+    "type": "line"
+   }, {
+    "id": "road_144k_street",
     "source": "esri",
     "source-layer": "Roads_144k",
+    "filter": {"carto": ["3","4","5","6"]},
+    "min-zoom": 5,
+    "render": {
+      "line-cap": "round",
+      "line-join": "round"
+    },
+      "style": {
+      "line-color": "@motorway_casing",
+      "line-width": "@motorway_casing_width"
+    },
+    "type": "line"
+   }, {
+    "id": "road_sub_main_144k",
+    "ref": "road_144k_street",
+    "style": {
+      "line-color": "@main",
+      "line-width": "@main_width"
+    }
+   }, {
+    "id": "road_144k_main",
+    "source": "esri",
+    "source-layer": "Roads_144k",
+    "filter": {"carto": "2"},
     "min-zoom": 5,
     "render": {
       "line-cap": "round",
@@ -398,6 +514,80 @@
     "style": {
       "line-color": "@motorway_casing",
       "line-width": "@motorway_casing_width"
+    },
+    "type": "line"
+  }, {
+    "id": "road_motorway_144k",
+    "ref": "road_144k_main",
+    "style": {
+      "line-color": "@motorway",
+      "line-width": "@motorway_width"
+    },
+    "type": "line"
+   }, {
+     "id": "ferry576k",
+    "source": "esri",
+    "source-layer": "Roads_576k",
+    "filter": {"carto": "13"},
+    "style": {
+      "line-color": "@ferry",
+      "line-dasharray": "@path_line_dasharray",
+      "line-width": "@ferry_width"
+    },
+    "type": "line"
+   }, {
+    "id": "ferry288k",
+    "source": "esri",
+    "source-layer": "MajorRoads_288k",
+    "filter": {"carto": "7"},
+    "style": {
+      "line-color": "@ferry",
+      "line-dasharray": "@path_line_dasharray",
+      "line-width": "@ferry_width"
+    },
+    "type": "line"
+   }, {
+    "id": "ferry144k",
+    "source": "esri",
+    "source-layer": "Roads_144k",
+    "filter": {"carto": "13"},
+    "style": {
+      "line-color": "@ferry",
+      "line-dasharray": "@path_line_dasharray",
+      "line-width": "@ferry_width"
+    },
+    "type": "line"
+   }, {
+    "id": "ferry72k",
+    "source": "esri",
+    "source-layer": "Roads_72k",
+    "filter": {"carto": "13"},
+    "style": {
+      "line-color": "@ferry",
+      "line-dasharray": "@path_line_dasharray",
+      "line-width": "@ferry_width"
+    },
+    "type": "line"
+    }, {
+    "id": "ferry36k",
+    "source": "esri",
+    "source-layer": "Roads_36k",
+    "filter": {"carto": "13"},
+    "style": {
+      "line-color": "@ferry",
+      "line-dasharray": "@path_line_dasharray",
+      "line-width": "@ferry_width"
+    },
+    "type": "line"
+   }, {
+    "id": "ferry_roads",
+    "source": "esri",
+    "source-layer": "Roads",
+    "filter": {"carto": "13"},
+    "style": {
+      "line-color": "@ferry",
+      "line-dasharray": "@path_line_dasharray",
+      "line-width": "@ferry_width"
     },
     "type": "line"
    }, {

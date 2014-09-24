@@ -294,6 +294,7 @@
     "id": "road_street_casing",
     "source": "esri",
     "source-layer": "Roads",
+    "filter": {"carto": "Local Road"},
     "render": {
       "line-cap": "round",
       "line-join": "round"
@@ -307,7 +308,7 @@
   }, {
     "id": "road_main_casing2",
     "source": "esri",
-    "source-layer": "Roads",
+    "source-layer": "RoadsXXXX",
     "render": {
       "line-cap": "round",
       "line-join": "round"
@@ -401,9 +402,31 @@
     },
     "type": "line"
    }, {
-    "id": "road_motorway_casing",
+    "id": "road_144k_ferry",
+    "source": "esri",
+    "source-layer": "Roads_144k",
+    "filter": {"carto": "13"},
+    "style": {
+      "line-color": "@path",
+      "line-dasharray": "@path_line_dasharray",
+      "line-width": "@path_width"
+    },
+    "type": "line"
+   }, {
+    "id": "ferry72k",
     "source": "esri",
     "source-layer": "Roads_72k",
+    "filter": {"carto": "13"},
+    "style": {
+      "line-color": "@path",
+      "line-dasharray": "@path_line_dasharray",
+      "line-width": "@path_width"
+    },
+    "type": "line"
+   }, {
+    "id": "road_motorway_casing",
+    "source": "esri",
+    "source-layer": "Roads_72kxxx",
     "filter": {"carto": "2"},
     "min-zoom": 5,
     "render": {
@@ -418,7 +441,7 @@
    }, {
     "id": "road_motorway_casing2",
     "source": "esri",
-    "source-layer": "Roads_72k",
+    "source-layer": "Roads_72kxxx",
     "filter": {"carto": ["3","4","5","6"]},
     "min-zoom": 5,
     "render": {
@@ -441,6 +464,7 @@
     "id": "road_path",
     "source": "esri",
     "source-layer": "Roads",
+    "filter": {"carto": "2"},
     "style": {
       "line-color": "@path",
       "line-dasharray": "@path_line_dasharray",
