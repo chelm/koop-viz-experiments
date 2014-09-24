@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title></title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='js/mapbox-gl-dev.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.2.2/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+        button {
+          display: block;
+          position: absolute;
+          top:20px;
+          left:10px;
+          width: 200px;
+          height: 40px;
+          padding: 10px;
+          border: none;
+          border-radius: 3px;
+          font-size: 12px;
+          text-align: center;
+          color: #fff;
+          background: #16a085;
+        }
+
+        #step1 {
+          top:20px;
+          left:10px;
+        }
+        #step2 {
+          top:70px;
+          left:10px;
+          background: #2980b9;
+        }
+        #step3 {
+          top:120px;
+          left:10px;
+          background: #2c3e50;
+        }
+        
+        
+    </style>
+</head>
+<body>
+
+<div id='map'></div>
+<button onclick='step1();' id='step1'>Step 1: San Francisco</button>
+<button onclick='step2();' id='step2'>Step 2: Oakland </button>
+<button onclick='step3();' id='step3'>Step 3: Berkeley</button>
+<script>
+var map = new mapboxgl.Map({
+  container: 'map', // container id
+  style: 'esri-styles.json', //stylesheet location
+  center: [37.7833, -122.4167], // starting position
+  zoom: 8 // starting zoom
+});
+
+
+function clear(){
+  map.style.removeClass('step1');
+  map.style.removeClass('step2');
+  map.style.removeClass('step3');
+}
+
+var zoomed = false;
+function step1() { 
+  clear();
+  map.flyTo([37.7833, -122.4167], 15, 0, function(){
+    map.style.addClass('dark');
+
+  });
+}
+function step2() { 
+  clear();
+  map.flyTo([37.80463, -122.271481], 14, 0);
+  map.style.removeClass('dark');
+}
+function step3() { 
+  clear();
+  map.flyTo([37.870958, -122.250795], 16, 0);
+  map.style.addClass('dark');
+}
+</script>
+</script>
+
+</body>
+</html>
