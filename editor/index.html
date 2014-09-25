@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title></title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='js/mapbox-gl-dev.js'></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.2.2/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+        #panel {
+          display: block;
+          position: absolute;
+          top:10px;
+          left:10px;
+          width: 450px;
+          height: 6250px;
+          padding: 10px;
+          border: none;
+          border-radius: 3px;
+          font-size: 14px;
+          color: #555;
+          background: #fff;
+          overflow:hidden;
+          overflow-y:auto;
+          border:1px solid #aaa;
+        }
+        #style {
+          width:445px;
+          height: 645px;
+          border: 0px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div id='map'></div>
+<div id='panel'></div>
+<script>
+
+var pickTimer;
+
+var map = new mapboxgl.Map({
+  container: 'map', // container id
+  style: 'esri-styles_v1.3.json', //stylesheet location
+  center: [37.7833, -122.4167], // starting position
+  zoom: 8 // starting zoom
+});
+
+
+map.on('load', function(){
+  style = map.style;
+  loadStyle();
+})
+
+function loadStyle(){
+ 
+  d3.select('#panel')
+    .append('textarea')
+    .attr('id','style')
+    .text(JSON.stringify(style.stylesheet,null,4))
+    .on('keyup',function(){
+      apply();
+    });
+
+};
+
+function apply(){
+  var sheet = JSON.parse(d3.select('#style').node().value);
+  style.stylesheet = sheet;
+  style.cascade();
+}
+
+
+
+</script>
+</script>
+
+</body>
+</html>
