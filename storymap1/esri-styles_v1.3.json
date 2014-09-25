@@ -22,7 +22,7 @@
     "@school": "#FDF7B7",
     "@wood": "#C4F59F",
     "@building": "#EBE7DC",
-    "@building_shadow": "#D1CAC5",
+    "@building_shadow": "#7F7E7E",
     "@building_color_transition": {
       "base": 1,
       "stops": [[15.5, "#EBE7DC"], [16, "#dfdbd7"]]
@@ -35,6 +35,7 @@
     "@main": "#FFF8EB",
     "@main_casing": "#FF9A42",
     "@main_tunnel": "#fff4c6",
+    "@pedestrian_street": "#fff",
     "@street": "#fff",
     "@street_limited": "#f3f3f3",
     "@street_casing": "#B2B2B2",
@@ -54,14 +55,15 @@
       }, {
       "base": 1.5, "stops": [[12, 2], [20, 3]]
         }],
-    "@motorway_width": {"base": 1.2, "stops": [[6.5, 0], [7, 0.5], [20, 18]]},
-    "@motorway_casing_width": {"base": 1.2, "stops": [[5, 0.4], [6, 0.6], [7, 1.5], [20, 22]]},
+    "@pedestrian_width": {"base": 1, "stops": [[6.5, 0], [7, 0.5], [20, 2]]},
+    "@motorway_width": {"base": 1.2, "stops": [[6.5, 0], [7, 0.5], [20, 16]]},
+    "@motorway_casing_width": {"base": 1.2, "stops": [[5, 0.4], [6, 0.6], [7, 1.5], [20, 18]]},
     "@motorway_link_width": {"base": 1.2, "stops": [[12.5, 0], [13, 1.5], [20, 10]]},
     "@motorway_link_casing_width": {"base": 1.2, "stops": [[12, 1], [13, 3], [20, 13]]},
-    "@main_width": {"base": 1.2, "stops": [[6.5, 0], [7, 0.5], [20, 14]]},
-    "@main_casing_width": {"base": 1.2, "stops": [[5, 0.1], [6, 0.2], [7, 1.5], [20, 18]]},
-    "@street_width": {"base": 1.2, "stops": [[13.5, 0], [14, 2.5], [20, 11.5]]},
-    "@street_casing_width": {"base": 1.2, "stops": [[12, 0.5], [13, 1], [14, 4], [20, 15]]},
+    "@main_width": {"base": 1, "stops": [[6.5, 0], [7, 0.5], [20, 8]]},
+    "@main_casing_width": {"base": 1, "stops": [[5, 0.1], [6, 0.2], [7, 1], [20, 8]]},
+    "@street_width": {"base": 1.2, "stops": [[13.5, 0], [14, 2.5], [20, 8.5]]},
+    "@street_casing_width": {"base": 1.2, "stops": [[12, 0.5], [13, 1], [14, 4], [20, 12]]},
     "@street_casing_opacity": {"stops": [[12, 0], [12.5, 1]]},
     "@service_casing_width": {"base": 1.2, "stops": [[15, 1], [16, 4], [20, 11]]},
     "@service_width": {"base": 1.2, "stops": [[15.5, 0], [16, 2], [20, 7.5]]},
@@ -308,7 +310,7 @@
     },
     "type": "line"
   }, {
-    "id": "road_main_casing2",
+    "id": "road_main_casing",
     "source": "esri",
     "source-layer": "Roads",
     "filter": {"carto": ["3","4","5"]},
@@ -319,6 +321,84 @@
     "style": {
       "line-color": "@motorway_casing",
       "line-width": "@main_casing_width"
+    },
+    "type": "line"
+  },{
+     "id": "road_pedestrian",
+    "source": "esri",
+    "source-layer": "Roads",
+    "filter": {"carto": ["6"]},
+    "render": {
+      "line-cap": "round",
+      "line-join": "round"
+    },
+    "style": {
+      "line-color": "@pedestrian_street",
+      "line-width": "@pedestrian_width"
+    },
+    "type": "line"
+   }, {
+    "id": "road_pedestrian_36k",
+    "source": "esri",
+    "source-layer": "Roads_36k",
+    "filter": {"carto": ["6"]},
+    "render": {
+      "line-cap": "round",
+      "line-join": "round"
+    },
+    "style": {
+      "line-color": "@pedestrian_street",
+      "line-width": "@pedestrian_width"
+    },
+    "type": "line"
+   }, {
+     "id": "road_pedestrian_72k",
+    "source": "esri",
+    "source-layer": "Roads_72k",
+    "filter": {"carto": ["6"]},
+    "render": {
+      "line-cap": "round",
+      "line-join": "round"
+    },
+    "style": {
+      "line-color": "@pedestrian_street",
+      "line-width": "@pedestrian_width"
+    },
+    "type": "line"
+   }, {
+    "id": "road_pedestrian_144k",
+    "source": "esri",
+    "source-layer": "Roads_144k",
+    "filter": {"carto": ["6"]},
+    "render": {
+      "line-cap": "round",
+      "line-join": "round"
+    },
+    "style": {
+      "line-color": "@pedestrian_street",
+      "line-width": "@pedestrian_width"
+    },
+    "type": "line"
+   }, {
+    "id": "roads_major_casing",
+    "source": "esri",
+    "source-layer": "Roads",
+    "filter": {"carto": ["2"]},
+    "render": {
+      "line-cap": "round",
+      "line-join": "round"
+    },
+    "style": {
+      "line-color": "@motorway_casing",
+      "line-width": "@main_casing_width"
+    },
+    "type": "line"
+   }, {
+    "id": "road_major",
+    "ref": "roads_major_casing",
+    "style": {
+      "line-color": "@motorway",
+      "line-width": "@motorway_width"
     },
     "type": "line"
    }, {
@@ -347,7 +427,7 @@
     "id": "road_36k_secondary_casing",
     "source": "esri",
     "source-layer": "Roads_36k",
-    "filter": {"carto": ["3","4","5","6"]},
+    "filter": {"carto": ["3","4","5"]},
     "render": {
       "line-cap": "round",
       "line-join": "round"
@@ -410,12 +490,11 @@
       "line-width": "@motorway_width"
     },
     "type": "line"
-   }, { 
-    }, {
+   }, {
     "id": "road_major288_casing_secondary",
     "source": "esri",
     "source-layer": "MajorRoads_288k",
-    "filter": {"render_class": ["3","4","5","6"]},
+    "filter": {"render_class": ["3","4","5"]},
     "min-zoom": 5,
     "render": {
       "line-cap": "round",
@@ -483,7 +562,7 @@
     "id": "road_144k_street",
     "source": "esri",
     "source-layer": "Roads_144k",
-    "filter": {"carto": ["3","4","5","6"]},
+    "filter": {"carto": ["3","4","5"]},
     "min-zoom": 5,
     "render": {
       "line-cap": "round",
@@ -609,7 +688,7 @@
     "id": "road_motorway_casing2",
     "source": "esri",
     "source-layer": "Roads_72k",
-    "filter": {"carto": ["3","4","5","6"]},
+    "filter": {"carto": ["3","4","5"]},
     "min-zoom": 5,
     "render": {
       "line-cap": "round",
@@ -630,7 +709,7 @@
   },{
     "id": "road_path",
     "source": "esri",
-    "source-layer": "Roads",
+    "source-layer": "RoadsXXXX",
     "style": {
       "line-color": "@path",
       "line-dasharray": "@path_line_dasharray",
