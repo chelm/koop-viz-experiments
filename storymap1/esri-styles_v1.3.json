@@ -4,6 +4,7 @@
   "glyphs": "https://mapbox.s3.amazonaws.com/gl-glyphs-256/{fontstack}/{range}.pbf",
   "constants": {
     "@name": "{name_label}",
+    "@road_name": "{shield_lbl}",
     "@sans": "Open Sans Regular, Arial Unicode MS Regular",
     "@sans_it": "Open Sans Italic, Arial Unicode MS Regular",
     "@sans_md": "Open Sans Semibold, Arial Unicode MS Bold",
@@ -49,6 +50,7 @@
     "@poi_text": "#666",
     "@poi_text_halo": "#ffffff",
     "@maki": "#666",
+    "@drape": 0.5,
     "@point_translate": [0, -30],
     "@tunnel_line_dasharray": [{
       "base": 1.5, "stops": [[12, 6], [20, 9]]
@@ -92,6 +94,11 @@
       "url": "js/esri.json",
       "maxZoom": 17,
       "minZoom": 5
+    },
+    "hillshade": {
+      "type": "raster",
+      "url": "js/hillshade.json",
+      "tileSize": 256
     }
   },
   "layers": [{
@@ -104,11 +111,17 @@
     },
     "type": "background"
   }, {
+    "id": "satellite",
+    "source": "hillshade",
+    "source-layer": "hillshade_full",
+    "type": "raster"
+  },{
     "id": "counties",
     "source": "esri",
     "source-layer": "Counties",
     "style": {
-      "fill-color": "@land"
+      "fill-color": "@land",
+      "fill-opacity": "@drape"
     },
     "type": "fill"
   },{
@@ -116,7 +129,8 @@
     "source": "esri",
     "source-layer": "States/Provinces",
     "style": {
-      "fill-color": "@land"
+      "fill-color": "@land",
+      "fill-opacity": "@drape"
     },
     "type": "fill"
   },{
@@ -133,10 +147,12 @@
     "source": "esri",
     "source-layer": "Land Use Areas",
     "style": {
-      "fill-color": "@park"
+      "fill-color": "@park",
+      "fill-opacity": "@drape"
     },
     "style.dark": {
-      "fill-color": "@park_dark"
+      "fill-color": "@park_dark",
+      "fill-opacity": "@drape"
     },
     "style.parkflash1": {
       "fill-color": "@park_flash1"
@@ -150,10 +166,12 @@
     "source": "esri",
     "source-layer": "Land\\Facility Areas",
     "style": {
-      "fill-color": "@park"
+      "fill-color": "@park",
+      "fill-opacity": "@drape"
     },
     "style.dark": {
-      "fill-color": "@park_dark"
+      "fill-color": "@park_dark",
+      "fill-opacity": "@drape"
     },
      "style.parkflash1": {
       "fill-color": "@park_flash1"
@@ -823,6 +841,26 @@
     "render": {
       "text-font": "@sans_md",
       "text-field": "@name",
+      "text-max-size": 16,
+      "text-max-width": 8
+    },
+    "style": {
+      "text-color": "#777",
+      "text-halo-color": "@text_halo",
+      "text-halo-width": 1.2,
+      "text-size": {
+        "base": 1.2,
+        "stops": [[7, 8], [11, 16]]
+      }
+    },
+    "type": "symbol"
+  },{
+    "id": "road_label_test",
+    "source": "esri",
+    "source-layer": "Roads",
+    "render": {
+      "text-font": "@sans_md",
+      "text-field": "@road_name",
       "text-max-size": 16,
       "text-max-width": 8
     },

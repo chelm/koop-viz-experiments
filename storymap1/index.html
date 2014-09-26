@@ -4,7 +4,7 @@
     <meta charset='utf-8' />
     <title></title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <script src='js/mapbox-gl-dev.js'></script>
+    <script src='js/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.2.2/mapbox-gl.css' rel='stylesheet' />
     <style>
         body { margin:0; padding:0; }
@@ -55,7 +55,7 @@
         
     </style>
 </head>
-<body>
+<body onload="load();">
 
 <div id='map'></div>
 <button onclick='step1();' id='step1'>Step 1</button>
@@ -64,12 +64,16 @@
 <button onclick='step4();' id='step4'>Step 4</button>
 <button onclick='step5();' id='step5'>Step 5</button>
 <script>
-var map = new mapboxgl.Map({
-  container: 'map', // container id
-  style: 'esri-styles_v1.3.json', //stylesheet location
-  center: [37.7833, -122.4167], // starting position
-  zoom: 12 // starting zoom
-});
+
+var map;
+function load(){
+  map = new mapboxgl.Map({
+    container: 'map', // container id
+    style: 'esri-styles_v1.3.json', //stylesheet location
+    center: [37.7833, -122.4167], // starting position
+    zoom: 12 // starting zoom
+  });
+}
 
 
 function clear(){
