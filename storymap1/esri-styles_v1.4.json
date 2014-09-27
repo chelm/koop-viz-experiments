@@ -4,7 +4,7 @@
   "glyphs": "https://mapbox.s3.amazonaws.com/gl-glyphs-256/{fontstack}/{range}.pbf",
   "constants": {
     "@name": "{name_label}",
-    "@road_name": "{shield_lbl}",
+    "@road_name": "{streetname}",
     "@sans": "Open Sans Regular, Arial Unicode MS Regular",
     "@sans_it": "Open Sans Italic, Arial Unicode MS Regular",
     "@sans_md": "Open Sans Semibold, Arial Unicode MS Bold",
@@ -121,7 +121,10 @@
     "source-layer": "Counties",
     "style": {
       "fill-color": "@land",
-      "fill-opacity": "@drape"
+      "fill-opacity": {
+        "base": "@drape",
+        "stops": [[16, 0.5], [20, 0.6]]
+      }
     },
     "type": "fill"
   },{
@@ -855,14 +858,16 @@
     },
     "type": "symbol"
   },{
-    "id": "road_label_test",
+    "id": "road_label_36k",
     "source": "esri",
-    "source-layer": "Roads",
+    "source-layer": "Roads_36k (labels)",
     "render": {
       "text-font": "@sans_md",
       "text-field": "@road_name",
       "text-max-size": 16,
-      "text-max-width": 8
+      "text-max-width": 8,
+      "text-font": "Open Sans Regular, Arial Unicode MS Regular",
+      "symbol-placement": "line"
     },
     "style": {
       "text-color": "#777",
@@ -871,6 +876,94 @@
       "text-size": {
         "base": 1.2,
         "stops": [[7, 8], [11, 16]]
+      }
+    },
+    "type": "symbol"
+  },{
+    "id": "road_label_72k",
+    "source": "esri",
+    "source-layer": "Roads_72k (labels)",
+    "render": {
+      "text-font": "@sans_md",
+      "text-field": "@road_name",
+      "text-max-size": 16,
+      "text-max-width": 8,
+      "text-font": "Open Sans Regular, Arial Unicode MS Regular",
+      "symbol-placement": "line"
+    },
+    "style": {
+      "text-color": "#777",
+      "text-halo-color": "@text_halo",
+      "text-halo-width": 1.2,
+      "text-size": {
+        "base": 1.2,
+        "stops": [[7, 8], [11, 14]]
+      }
+    },
+    "type": "symbol"
+  }, {
+    "id": "road_label_144k",
+    "source": "esri",
+    "source-layer": "Roads_144k (labels)",
+    "render": {
+      "text-font": "@sans_md",
+      "text-field": "@road_name",
+      "text-max-size": 14,
+      "text-max-width": 8,
+      "text-font": "Open Sans Regular, Arial Unicode MS Regular",
+      "text-max-angle": 28.65,
+      "symbol-placement": "line"
+    },
+    "style": {
+      "text-color": "#777",
+      "text-halo-color": "@text_halo",
+      "text-halo-width": 1.2,
+      "text-size": {
+        "base": 1.2,
+        "stops": [[7, 8], [11, 14]]
+      }
+    },
+    "type": "symbol"
+  }, {
+    "id": "road_labels",
+    "source": "esri",
+    "source-layer": "Roads (labels)xxx",
+    "render": {
+      "text-font": "@sans_md",
+      "text-field": "@road_name",
+      "text-max-size": 12,
+      "text-max-width": 8,
+      "text-font": "Open Sans Regular, Arial Unicode MS Regular",
+      "symbol-placement": "line"
+    },
+    "style": {
+      "text-color": "#777",
+      "text-halo-color": "@text_halo",
+      "text-halo-width": 1.2,
+      "text-size": {
+        "base": 1.2,
+        "stops": [[7, 8], [11, 12]]
+      }
+    },
+    "type": "symbol"
+  }, {
+    "id": "major-cities",
+    "source": "esri",
+    "source-layer": "Major Cities",
+    "filter": { "label_class": "6" },
+    "render": {
+      "text-font": "@sans_md",
+      "text-field": "@name",
+      "text-max-size": 24,
+      "text-max-width": 8
+    },
+    "style": {
+      "text-color": "#777",
+      "text-halo-color": "@text_halo",
+      "text-halo-width": 1.2,
+      "text-size": {
+        "base": 1.2,
+        "stops": [[7, 14], [11, 24]]
       }
     },
     "type": "symbol"
@@ -944,7 +1037,7 @@
     "render": {
       "symbol-placement": "line",
       "symbol-min-distance": 500,
-      "icon-image": "motorway_{reflen}",
+      "icon-image": "motorway_2",
       "icon-max-size": 1,
       "text-field": "{ref}",
       "text-font": "@sans_bd",
@@ -958,31 +1051,9 @@
     },
     "type": "symbol"
   }, {
-    "id": "road_label",
-    "source": "esri",
-    "source-layer": "road_label",
-    "filter": { "$type": "LineString" },
-    "render": {
-      "text-font": "@sans",
-      "text-field": "@name",
-      "text-max-size": 13,
-      "symbol-placement": "line"
-    },
-    "style": {
-      "text-color": "#765",
-      "text-halo-color": "#fff",
-      "text-halo-width": 1,
-      "text-halo-blur": 0.5,
-      "text-size": {
-        "stops": [[13, 12], [14, 13]]
-      }
-    },
-    "type": "symbol"
-  }, {
    "id": "water_label",
     "source": "esri",
-    "source-layer": "water_label",
-    "filter": { "$type": "Point" },
+    "source-layer": "Major Water Areas",
     "render": {
       "text-font": "@sans_it",
       "text-field": "@name",

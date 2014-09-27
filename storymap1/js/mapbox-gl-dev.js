@@ -10834,7 +10834,7 @@ Protobuf.prototype.skip = function(val) {
         /* 64 bit */ case Protobuf.Int64: this.pos += 8; break;
         /* length */ case Protobuf.Message: var bytes = this.readVarint(); this.pos += bytes; break;
         /* 32 bit */ case Protobuf.Int32: this.pos += 4; break;
-        default: throw new Error('Unimplemented type: ' + type);
+        default: this.pos += 4;//throw new Error('Unimplemented type: ' + type);
     }
 };
 

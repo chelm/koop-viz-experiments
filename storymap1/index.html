@@ -4,7 +4,7 @@
     <meta charset='utf-8' />
     <title></title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <script src='js/mapbox-gl.js'></script>
+    <script src='js/mapbox-gl-dev.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.2.2/mapbox-gl.css' rel='stylesheet' />
     <style>
         body { margin:0; padding:0; }
@@ -13,8 +13,8 @@
           display: block;
           position: absolute;
           top:20px;
-          left:10px;
-          width: 200px;
+          left:5px;
+          width: 50px;
           height: 40px;
           padding: 10px;
           border: none;
@@ -26,27 +26,22 @@
         }
 
         #step1 {
-          top:20px;
-          left:10px;
+          top:5px;
         }
         #step2 {
-          top:70px;
-          left:10px;
+          top:50px;
           background: #2980b9;
         }
         #step3 {
-          top:120px;
-          left:10px;
+          top:95px;
           background: #2c3e50;
         }
         #step4 {
-          top:170px;
-          left:10px;
+          top:140px;
           background: #9b59b6;
         }
         #step5 {
-          top:220px;
-          left:10px;
+          top:185px;
           background: #bdc3c7;
         }
 
@@ -58,11 +53,11 @@
 <body onload="load();">
 
 <div id='map'></div>
-<button onclick='step1();' id='step1'>Step 1</button>
-<button onclick='step2();' id='step2'>Step 2</button>
-<button onclick='step3();' id='step3'>Step 3</button>
-<button onclick='step4();' id='step4'>Step 4</button>
-<button onclick='step5();' id='step5'>Step 5</button>
+<button onclick='step1();' id='step1'>1</button>
+<button onclick='step2();' id='step2'>2</button>
+<button onclick='step3();' id='step3'>3</button>
+<button onclick='step4();' id='step4'>4</button>
+<button onclick='step5();' id='step5'>5</button>
 <script>
 
 var map;
@@ -73,6 +68,7 @@ function load(){
     center: [37.7833, -122.4167], // starting position
     zoom: 12 // starting zoom
   });
+  map.addControl(new mapboxgl.Navigation());
 }
 
 
