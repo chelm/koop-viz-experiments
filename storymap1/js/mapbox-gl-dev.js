@@ -4345,9 +4345,16 @@ VectorTile.prototype = util.inherit(Tile, {
         this.buckets = {};
         for (var b in data.elementGroups) {
             this.buckets[b] = createBucket(this.map.style.buckets[b], this.buffers, undefined, data.elementGroups[b]);
+          if (data && data.elementGroups[b] && data.elementGroups[b].groups && data.elementGroups[b].groups.length){
+            info[b] = true;
+            
+          }
         }
-
         this.loaded = true;
+        updateInfo(); 
+        setTimeout(function(){
+          info = {};
+        },10000);
     },
 
     remove: function() {

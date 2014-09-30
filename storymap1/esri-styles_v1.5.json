@@ -36,7 +36,7 @@
     "@main": "#FFF8EB",
     "@main_casing": "#FF9A42",
     "@main_tunnel": "#fff4c6",
-    "@pedestrian_street": "#fff",
+    "@pedestrian_street": "#ddd",
     "@street": "#fff",
     "@street_limited": "#f3f3f3",
     "@street_casing": "#B2B2B2",
@@ -50,19 +50,18 @@
     "@poi_text": "#666",
     "@poi_text_halo": "#ffffff",
     "@maki": "#666",
-    "@drape": 0.5,
     "@point_translate": [0, -30],
     "@tunnel_line_dasharray": [{
       "base": 1.5, "stops": [[12, 6], [20, 9]]
       }, {
       "base": 1.5, "stops": [[12, 2], [20, 3]]
         }],
-    "@pedestrian_width": {"base": 1, "stops": [[6.5, 0], [7, 0.5], [20, 2]]},
-    "@motorway_width": {"base": 1.2, "stops": [[6.5, 0], [7, 0.5], [20, 16]]},
-    "@motorway_casing_width": {"base": 1.2, "stops": [[5, 0.4], [6, 0.6], [7, 1.5], [20, 18]]},
+    "@pedestrian_width": {"base": 1, "stops": [[6.5, 0], [7, 1], [20, 2.5]]},
+    "@motorway_width": {"base": 1.2, "stops": [[6.5, 0], [7, 0.5], [20, 12]]},
+    "@motorway_casing_width": {"base": 1.2, "stops": [[5, 0.4], [6, 0.6], [7, 1.5], [20, 12]]},
     "@motorway_link_width": {"base": 1.2, "stops": [[12.5, 0], [13, 1.5], [20, 10]]},
     "@motorway_link_casing_width": {"base": 1.2, "stops": [[12, 1], [13, 3], [20, 13]]},
-    "@main_width": {"base": 1, "stops": [[6.5, 0], [7, 0.5], [20, 8]]},
+    "@main_width": {"base": 1, "stops": [[6.5, 0], [7, 0.5], [20, 5]]},
     "@main_casing_width": {"base": 1, "stops": [[5, 0.1], [6, 0.2], [7, 1], [20, 8]]},
     "@street_width": {"base": 1.2, "stops": [[13.5, 0], [14, 2.5], [20, 8.5]]},
     "@street_casing_width": {"base": 1.2, "stops": [[12, 0.5], [13, 1], [14, 4], [20, 12]]},
@@ -94,11 +93,6 @@
       "url": "js/esri.json",
       "maxZoom": 17,
       "minZoom": 5
-    },
-    "hillshade": {
-      "type": "raster",
-      "url": "js/hillshade.json",
-      "tileSize": 256
     }
   },
   "layers": [{
@@ -111,20 +105,11 @@
     },
     "type": "background"
   }, {
-    "id": "satellite",
-    "source": "hillshade",
-    "source-layer": "hillshade_full",
-    "type": "raster"
-  },{
     "id": "counties",
     "source": "esri",
     "source-layer": "Counties",
     "style": {
-      "fill-color": "@land",
-      "fill-opacity": {
-        "base": "@drape",
-        "stops": [[16, 0.5], [20, 0.6]]
-      }
+      "fill-color": "@land"
     },
     "type": "fill"
   },{
@@ -132,8 +117,7 @@
     "source": "esri",
     "source-layer": "States/Provinces",
     "style": {
-      "fill-color": "@land",
-      "fill-opacity": "@drape"
+      "fill-color": "@land"
     },
     "type": "fill"
   },{
@@ -150,12 +134,10 @@
     "source": "esri",
     "source-layer": "Land Use Areas",
     "style": {
-      "fill-color": "@park",
-      "fill-opacity": "@drape"
+      "fill-color": "@park"
     },
     "style.dark": {
-      "fill-color": "@park_dark",
-      "fill-opacity": "@drape"
+      "fill-color": "@park_dark"
     },
     "style.parkflash1": {
       "fill-color": "@park_flash1"
@@ -169,12 +151,10 @@
     "source": "esri",
     "source-layer": "Land\\Facility Areas",
     "style": {
-      "fill-color": "@park",
-      "fill-opacity": "@drape"
+      "fill-color": "@park"
     },
     "style.dark": {
-      "fill-color": "@park_dark",
-      "fill-opacity": "@drape"
+      "fill-color": "@park_dark"
     },
      "style.parkflash1": {
       "fill-color": "@park_flash1"
@@ -317,6 +297,36 @@
       "fill-outline-color": "@building_shadow"
     }
   }, {
+    "id": "med_building_top",
+    "ref": "medbuilding",
+    "style": {
+      "fill-color": "@building",
+      "fill-opacity": "@building_opacity",
+      "fill-translate": [{
+        "base": 1,
+        "stops": [[15, 0], [16, -2] ]
+      }, {
+        "base": 1,
+        "stops": [[15, 0], [16, -2] ]
+      }],
+      "fill-outline-color": "@building_shadow"
+    }
+  }, {
+    "id": "maj_building_top",
+    "ref": "majorbuilding",
+    "style": {
+      "fill-color": "@building",
+      "fill-opacity": "@building_opacity",
+      "fill-translate": [{
+        "base": 1,
+        "stops": [[15, 0], [16, -2] ]
+      }, {
+        "base": 1,
+        "stops": [[15, 0], [16, -2] ]
+      }],
+      "fill-outline-color": "@building_shadow"
+    }
+  }, {
     "id": "road_street_casing",
     "source": "esri",
     "source-layer": "Roadxxs",
@@ -401,25 +411,25 @@
     },
     "type": "line"
    }, {
-    "id": "roads_major_casing",
+    "id": "road_36k_secondary_casing",
     "source": "esri",
-    "source-layer": "Roads",
-    "filter": {"carto": ["2"]},
+    "source-layer": "Roads_36k",
+    "filter": {"carto": ["3","4","5"]},
     "render": {
       "line-cap": "round",
       "line-join": "round"
     },
     "style": {
       "line-color": "@motorway_casing",
-      "line-width": "@main_casing_width"
+      "line-width": "@motorway_casing_width"
     },
     "type": "line"
    }, {
-    "id": "road_major",
-    "ref": "roads_major_casing",
+    "id": "road_36k_secondary",
+    "ref": "road_36k_secondary_casing",
     "style": {
-      "line-color": "@motorway",
-      "line-width": "@motorway_width"
+      "line-color": "@main",
+      "line-width": "@main_width"
     },
     "type": "line"
    }, {
@@ -444,29 +454,7 @@
       "line-width": "@motorway_width"
     },
     "type": "line"
-   }, {
-    "id": "road_36k_secondary_casing",
-    "source": "esri",
-    "source-layer": "Roads_36k",
-    "filter": {"carto": ["3","4","5"]},
-    "render": {
-      "line-cap": "round",
-      "line-join": "round"
-    },
-    "style": {
-      "line-color": "@motorway_casing",
-      "line-width": "@motorway_casing_width"
-    },
-    "type": "line"
-   }, {
-    "id": "road_36k_secondary",
-    "ref": "road_36k_secondary_casing",
-    "style": {
-      "line-color": "@main",
-      "line-width": "@main_width"
-    },
-    "type": "line"
-   }, {
+  },{
     "id": "road_majorhg_casing",
     "source": "esri",
     "source-layer": "MajorRoads_hg",
@@ -677,6 +665,28 @@
       "line-color": "@ferry",
       "line-dasharray": "@path_line_dasharray",
       "line-width": "@ferry_width"
+    },
+    "type": "line"
+   }, {
+    "id": "roads_major_casing",
+    "source": "esri",
+    "source-layer": "Roads",
+    "filter": {"carto": ["2"]},
+    "render": {
+      "line-cap": "round",
+      "line-join": "round"
+    },
+    "style": {
+      "line-color": "@motorway_casing",
+      "line-width": "@main_casing_width"
+    },
+    "type": "line"
+   }, {
+    "id": "road_major",
+    "ref": "roads_major_casing",
+    "style": {
+      "line-color": "@motorway",
+      "line-width": "@motorway_width"
     },
     "type": "line"
    }, {
@@ -950,7 +960,6 @@
     "id": "major-cities",
     "source": "esri",
     "source-layer": "Major Cities",
-    "filter": { "label_class": "6" },
     "render": {
       "text-font": "@sans_md",
       "text-field": "@name",
@@ -971,7 +980,6 @@
     "id": "med-cities-big",
     "source": "esri",
     "source-layer": "Medium Cities",
-    "filter": { "label_class": "6" },
     "render": {
       "text-font": "@sans_md",
       "text-field": "@name",
@@ -1039,7 +1047,7 @@
       "symbol-min-distance": 500,
       "icon-image": "motorway_2",
       "icon-max-size": 1,
-      "text-field": "{ref}",
+      "text-field": "{shield_lbl}",
       "text-font": "@sans_bd",
       "text-max-size": 11,
       "text-rotation-alignment": "viewport",

@@ -5,6 +5,7 @@
     <title></title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='js/mapbox-gl-dev.js'></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.2.2/mapbox-gl.css' rel='stylesheet' />
     <style>
         body { margin:0; padding:0; }
@@ -44,6 +45,18 @@
           top:185px;
           background: #bdc3c7;
         }
+        #info{
+          position:absolute;
+          bottom:20px;
+          left:5px;
+          width:200px;
+          height:300px;
+          font-size:14px;
+          background:#fff;
+          padding:10px;
+          overflow:hidden;
+          overflow-y:auto;
+        }
 
         
         
@@ -58,19 +71,38 @@
 <button onclick='step3();' id='step3'>3</button>
 <button onclick='step4();' id='step4'>4</button>
 <button onclick='step5();' id='step5'>5</button>
+<div id="info">
+  <div id="zoom"></div>
+  <div id="layers"></div>
+</div>
 <script>
-
+var info = {};
 var map;
+
+function updateInfo(){
+  var layers = d3.select('#layers');
+  layers.html(Object.keys(info).join('<br/>'));
+}
+
 function load(){
   map = new mapboxgl.Map({
     container: 'map', // container id
-    style: 'esri-styles_v1.4.json', //stylesheet location
+    style: 'esri-styles_v1.5.json', //stylesheet location
     center: [37.7833, -122.4167], // starting position
     zoom: 12 // starting zoom
   });
   map.addControl(new mapboxgl.Navigation());
-}
 
+  map.on('zoom',function(){
+    d3.select('#zoom').html('zoom: ' + map.getZoom());
+  });
+
+  map.on('click', function(e){
+    map.featuresAt(e.point, {}, function(err, features){
+      console.log(features);
+    }); 
+  });
+}
 
 function clear(){
   map.style.removeClass('step1');
