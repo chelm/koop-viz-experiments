@@ -12141,6 +12141,7 @@ VectorTileFeature.prototype.loadGeometry = function() {
         }
     }
 
+
     if (line) lines.push(line);
 
     return lines;

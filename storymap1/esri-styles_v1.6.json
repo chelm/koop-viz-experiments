@@ -1251,6 +1251,28 @@
     },
     "type": "symbol"
   },{
+    "id": "road_labels",
+    "source": "esri",
+    "source-layer": "Roads",
+    "render": {
+      "text-font": "@sans_md",
+      "text-field": "{streetname}",
+      "text-max-size": 12,
+      "text-max-width": 8,
+      "text-font": "Open Sans Regular, Arial Unicode MS Regular",
+      "symbol-placement": "line"
+    },
+    "style": {
+      "text-color": "#777",
+      "text-halo-color": "@text_halo",
+      "text-halo-width": 1.2,
+      "text-size": {
+        "base": 1.2,
+        "stops": [[7, 8], [11, 12]]
+      }
+    },
+    "type": "symbol"
+  },{
     "id": "land_facility_labels_other",
     "source": "esri",
     "source-layer": "Land\\Facility Areas",
