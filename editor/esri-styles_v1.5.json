@@ -937,7 +937,7 @@
   }, {
     "id": "road_labels",
     "source": "esri",
-    "source-layer": "Roads (labels)xxx",
+    "source-layer": "Roads (labels)",
     "render": {
       "text-font": "@sans_md",
       "text-field": "@road_name",
