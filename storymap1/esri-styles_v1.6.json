@@ -15,7 +15,8 @@
     "@admin": "#D6D1E0",
     "@admin-opacity": 0.5,
     "@park": "#C4F59F",
-    "@park_label": "#080",
+    "@park_label": "#529639",
+    "@park_label_other": "#4E4E4E",
     "@park_dark": "#9ECA3B",
     "@park_flash1": "#5A945A",
     "@park_flash2": "#9ECA3B",
@@ -24,10 +25,10 @@
     "@school": "#FDF7B7",
     "@wood": "#C4F59F",
     "@building": "#EBE7DC",
-    "@building_shadow": "#7F7E7E",
+    "@building_shadow": "#D1CAC5",
     "@building_color_transition": {
       "base": 1,
-      "stops": [[15.5, "#EBE7DC"], [16, "#dfdbd7"]]
+      "stops": [[15.5, "#EBE7DC"], [16, "#D1CAC5"]]
     },
     "@building_opacity": {"base": 1, "stops": [[15, 0], [16, 1]]},
     "@aeroway": "#f0ede9",
@@ -39,7 +40,7 @@
     "@arterial_casing": "#FF9A42",
     "@motorway_tunnel": "#FFF5BD",
     "@main": "#f3f3f3",
-    "@local": "#f3f3f3",
+    "@local": "#fff",
     "@main_casing": "#FF9A42",
     "@local_casing": "#B2B2B2",
     "@main_tunnel": "#fff4c6",
@@ -1250,10 +1251,37 @@
     },
     "type": "symbol"
   },{
+    "id": "land_facility_labels_other",
+    "source": "esri",
+    "source-layer": "Land\\Facility Areas",
+    "min-zoom":13,
+    "filter": { "!": {
+      "render_class":["2000420", "2000123", "900103", "900130", "900202", "900150"]}
+    },
+    "render": {
+      "text-font": "@sans_md",
+      "text-field": "@name",
+      "text-max-size": 10,
+      "text-max-width": 8,
+      "text-font": "Open Sans Regular, Arial Unicode MS Regular",
+      "symbol-avoid-edges":true
+    },
+    "style": {
+      "text-color": "@park_label_other",
+      "text-halo-color": "@text_halo",
+      "text-halo-width": 1.2,
+      "text-size": {
+        "base": 1.2,
+        "stops": [[7, 8], [11, 10]]
+      }
+    },
+    "type": "symbol"
+  },{
     "id": "land_facility_labels",
     "source": "esri",
     "source-layer": "Land\\Facility Areas",
     "min-zoom":13,
+    "filter": {"render_class":["2000420", "2000123", "900103", "900130", "900202", "900150"]},
     "render": {
       "text-font": "@sans_md",
       "text-field": "@name",
@@ -1275,7 +1303,7 @@
   },{
     "id": "land_use_labels",
     "source": "esri",
-    "source-layer": "Land Use Areas",
+    "source-layer": "Land Use Areas (labels)",
     "min-zoom":13,
     "render": {
       "text-font": "@sans_md",
